@@ -1,3 +1,5 @@
+![master build](https://github.com/planetsolutions/pa-front/workflows/master%20build/badge.svg)
+
 # PlanetArchive Frontend Application
 Uses Angular 5 framework and NPM.
 
