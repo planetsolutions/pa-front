@@ -20,4 +20,5 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: ng build
+      - run: npm install
+      - run: ./node_modules/@angular/cli/bin/ng build
