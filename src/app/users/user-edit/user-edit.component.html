@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left" i18n="@@typeSelectTitle" [innerHTML]="user.fullName || user.id"></h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="user_tenant" [innerHTML]="'users.tenant' | translate"></label>
+    <select class="form-control" id="user_tenant" [(ngModel)]="user.tenantId">
+      <option value=""></option>
+      <option *ngFor="let t of tenants" [attr.value]="t.uuid">{{t.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="user_lang" [innerHTML]="'users.lang' | translate"></label>
+    <select class="form-control" id="user_lang" [(ngModel)]="user.lang">
+      <option value=""></option>
+      <option *ngFor="let lang of langs" [attr.value]="lang">{{lang}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label [innerHTML]="'users.groups' | translate"></label>
+    <div class="checkbox" *ngFor="let gr of groupsChk; let i=index" >
+      <label><input type="checkbox" [attr.value]="gr.value" [checked]="gr.checked" (click)="checkBoxClick(i)">{{gr.name}}</label>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" [disabled]="false"
+          class="btn btn-primary" (click)="ok()" [translate]="'actions.ok'">OK</button>
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()" [translate]="'actions.cancel'">cancel</button>
+</div>

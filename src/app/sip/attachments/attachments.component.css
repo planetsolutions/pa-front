@@ -1,0 +1,40 @@
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+
+  z-index: -1;
+}
+
+.inputfile + label {
+  display: inline-block;
+  border: 1px solid #5bc0de;
+  border-radius: 5px;
+  font-weight: normal;
+
+  /* Расстояние от текста до рамки */
+  padding: 5px 15px;
+  color: white;
+  background-color: #5bc0de;
+  cursor: pointer;
+}
+
+
+.remove {
+  cursor: pointer;
+  color: red;
+}
+
+.col-index {
+  width: 10%;
+}
+
+.col-name {
+  width: 80%;
+}
+
+.col-action {
+  width: 10%;
+}

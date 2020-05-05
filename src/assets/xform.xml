@@ -1,0 +1,88 @@
+<xhtml:html xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xforms="http://www.w3.org/2002/xforms"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xhtml:head>
+    <xforms:model>
+      <xforms:instance xmlns="">
+        <data>
+          <thread/>
+          <it/>
+          <user/>
+        </data>
+      </xforms:instance>
+      <xforms:instance id="labels" xmlns="">
+        <labels>
+          <thread>Thread:</thread>
+          <it>Iteration:</it>
+          <user>User:</user>
+        </labels>
+      </xforms:instance>
+      <xforms:instance id="hints" xmlns="">
+        <hints>
+          <thread/>
+          <it/>
+          <user/>
+        </hints>
+      </xforms:instance>
+      <xforms:instance id="prompts" xmlns="">
+        <prompts>
+          <thread/>
+          <it/>
+          <user/>
+        </prompts>
+      </xforms:instance>
+      <xforms:instance id="alerts" xmlns="">
+        <alerts>
+          <thread/>
+          <it/>
+          <user/>
+        </alerts>
+      </xforms:instance>
+      <xforms:instance id="range-messages" xmlns="">
+        <rangemessages>
+          <thread/>
+          <it/>
+          <user/>
+        </rangemessages>
+      </xforms:instance>
+      <xforms:instance id="pattern-messages" xmlns="">
+        <patternmessages>
+          <thread/>
+          <it/>
+          <user/>
+        </patternmessages>
+      </xforms:instance>
+      <xforms:submission id="submit01" method="post" serialization="application/xml"/>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xforms="http://www.w3.org/2002/xforms"
+                  targetNamespace="http://www.w3.org/2002/xforms" elementFormDefault="qualified"></xsd:schema>
+      <xforms:bind ref="/data/thread"/>
+      <xforms:bind ref="/data/it"/>
+      <xforms:bind ref="/data/user"/>
+    </xforms:model>
+  </xhtml:head>
+  <xhtml:body>
+    <input xmlns="http://www.w3.org/2002/xforms" ref="thread">
+      <label ref="instance('labels')/thread"/>
+      <hint ref="instance('hints')/thread"/>
+      <hint appearance="minimal" ref="instance('prompts')/thread"/>
+      <alert ref="instance('alerts')/thread"/>
+      <message class="range" ref="instance('range-messages')/thread"/>
+      <message class="pattern" ref="instance('pattern-messages')/thread"/>
+    </input>
+    <input xmlns="http://www.w3.org/2002/xforms" ref="it">
+      <label ref="instance('labels')/it"/>
+      <hint ref="instance('hints')/it"/>
+      <hint appearance="minimal" ref="instance('prompts')/it"/>
+      <alert ref="instance('alerts')/it"/>
+      <message class="range" ref="instance('range-messages')/it"/>
+      <message class="pattern" ref="instance('pattern-messages')/it"/>
+    </input>
+    <input xmlns="http://www.w3.org/2002/xforms" ref="user">
+      <label ref="instance('labels')/user"/>
+      <hint ref="instance('hints')/user"/>
+      <hint appearance="minimal" ref="instance('prompts')/user"/>
+      <alert ref="instance('alerts')/user"/>
+      <message class="range" ref="instance('range-messages')/user"/>
+      <message class="pattern" ref="instance('pattern-messages')/user"/>
+    </input>
+  </xhtml:body>
+</xhtml:html>

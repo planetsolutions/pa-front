@@ -1,0 +1,23 @@
+<div *ngIf="buckets.length > 0">
+  <div *ngFor="let bucket of buckets" class="form-group facet-bucket">
+    <div>{{bucket.name}}:</div>
+    <div *ngFor="let entry of bucket.data | limitTo : 3">
+      <a href="javascript://" (click)="change(bucket.name, entry.key)"> {{entry.key}} ({{entry.doc_count}}) </a>
+      <a *ngIf="bucket.selectedValue && bucket.data.length == 1" href="javascript://" (click)="change(bucket.name, null)" class="pull-right">
+        <i class="glyphicon glyphicon-remove"></i>
+      </a>
+    </div>
+
+    <div dropdown *ngIf="bucket.data.length > 3">
+      <a href="#" dropdownToggle (click)="false" class="dropdown-toggle" [translate]="'search.facets.other'">...</a>
+      <ul *dropdownMenu class="dropdown-menu" role="menu">
+        <li *ngFor="let entry of bucket.data | limitTo : -3" style="width:95%">
+          <a class="dropdown-item" href="javascript://" (click)="change(bucket.name, entry.key)" style="padding: 3px 3px">
+            {{entry.key}} ({{entry.doc_count}})
+          </a>
+        </li>
+      </ul>
+    </div>
+
+   </div>
+</div>

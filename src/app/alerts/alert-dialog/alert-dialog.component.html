@@ -1,0 +1,17 @@
+<div class="modal-header warning">
+  <h4 class="modal-title pull-left" [translate]="title"></h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <table><tr>
+    <td *ngIf="!!icon" style="width:50px"><span class="mdi  mdi-{{icon}} mdi-48px"></span></td>
+    <td><h5 [innerHtml]="text"></h5></td>
+  </tr></table>
+</div>
+<div class="modal-footer">
+  <button *ngFor="let btn of buttons; let i = index"
+    type="button" class="btn btn-{{btn.theme || 'default'}} btn-sm" (click)="submit(i)"
+  ><i *ngIf="!!btn.icon" class="glyphicon glyphicon-{{btn.icon}}" style="margin-right:10px"></i><span [translate]="btn.label"></span></button>
+</div>

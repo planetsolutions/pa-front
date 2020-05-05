@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left" [translate]="'folder.folder'">Folder</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form name="folderForm" #folderForm="ngForm">
+    <div class="form-group">
+      <label [translate]="'document.title'">Title</label>:
+      <input class="form-control input-sm" [(ngModel)]="folder.name" name="title" required>
+    </div>
+
+    <div class="form-group">
+      <label [translate]="'document.type'">Type</label>:
+      <input class="form-control input-sm" [(ngModel)]="folder.type" name="type" required>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary btn-sm" (click)="editJson()" [translate]="'actions.editJson'"
+          >Edit JSON</button>
+  <button type="button" class="btn btn-success btn-sm" (click)="submit()" [translate]="'actions.save'"
+          [disabled]="!folderForm.form.valid">Save</button>
+  <button type="button" class="btn btn-default btn-sm" (click)="bsModalRef.hide()" [translate]="'actions.cancel'">Cancel</button>
+</div>

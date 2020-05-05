@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2015.  EMC Corporation. All Rights Reserved.
+  ~ EMC Confidential: Restricted Internal Distribution
+  -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="urn:ia:en:xsd:documentholding.1.0" targetNamespace="urn:ia:en:xsd:documentholding.1.0" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xs:complexType name="documents">
+		<xs:sequence>
+			<xs:element name="document" type="document" minOccurs="1" maxOccurs="500" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="document">
+		<xs:sequence>
+			<xs:element name="docId" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="author" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="creationDate" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
+			<xs:element name="version" type="xs:int" minOccurs="1" maxOccurs="1" />
+			<xs:element name="attachments">
+                <xs:complexType>
+                  <xs:sequence>
+					<xs:element name="attachment" type="attachment" minOccurs="0" maxOccurs="5000" />
+			      </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="attachment">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="filePath" type="xs:string" />
+			<xs:element name="size" type="xs:long" />
+			<xs:element name="mediaType" type="xs:string" />
+			<xs:element name="createdBy" type="xs:string" />
+			<xs:element name="creationDate" type="xs:dateTime" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="documents" type="documents" />
+
+</xs:schema>

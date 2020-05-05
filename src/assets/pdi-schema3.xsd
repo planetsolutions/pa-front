@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    	targetNamespace="urn:x-emc:eas:schema:sharepoint:1.0"
+    	xmlns="urn:x-emc:eas:schema:sharepoint:1.0"
+		elementFormDefault="qualified">
+
+	<xs:element name="Objects">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="objectsType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="objectsType">
+		<xs:sequence>
+			<xs:element name="Object" type="objectType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="UniqueId" type="xs:string"/>
+	</xs:complexType>
+
+	<!-- Structure -->
+	<xs:complexType name="objectType">
+		<xs:sequence>
+			<xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##any"/>
+		</xs:sequence>
+		<xs:attribute name="UniqueId" type="xs:string"/>
+	</xs:complexType>
+
+</xs:schema>

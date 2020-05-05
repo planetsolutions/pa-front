@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-6" *ngIf="questions">
+
+      <div  *ngFor="let question of questions" class="form-group">
+        <app-df-question [question]="question" [form]="form"></app-df-question>
+      </div>
+
+  </div>
+
+  <div *ngIf="hasAttachments" class="col-md-5 col-md-push-1">
+    <app-attachments (attachments)="attachments"></app-attachments>
+
+  </div>
+</div>

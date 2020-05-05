@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2015.  EMC Corporation. All Rights Reserved.
+  ~ EMC Confidential: Restricted Internal Distribution
+  -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:eas-samples:en:xsd:phonecalls.1.0"
+           version="1.0" elementFormDefault="qualified">
+    <xs:element name="Calls">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element name="Call">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="SentToArchiveDate" type="xs:date" nillable="false"/>
+							<xs:element name="Year">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:positiveInteger">
+                                        <xs:minInclusive value="1"/>
+                                        <xs:totalDigits value="4"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="CallStartDate" type="xs:dateTime" nillable="false"/>
+                            <xs:element name="CallEndDate" type="xs:dateTime"/>
+                            <xs:element name="CallFromPhoneNumber">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:positiveInteger">
+                                        <xs:minInclusive value="1"/>
+                                        <xs:totalDigits value="11"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="CallToPhoneNumber" nillable="false">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:positiveInteger">
+                                        <xs:minInclusive value="1"/>
+                                        <xs:totalDigits value="11"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="CustomerID" nillable="false">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:positiveInteger">
+                                        <xs:totalDigits value="11"/>
+                                        <xs:minInclusive value="1"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="CustomerLastName" nillable="false">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:normalizedString">
+                                        <xs:minLength value="1"/>
+                                        <xs:maxLength value="32"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="CustomerFirstName" nillable="false">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:normalizedString">
+                                        <xs:minLength value="1"/>
+                                        <xs:maxLength value="32"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="RepresentativeID" nillable="false">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:positiveInteger">
+                                        <xs:minInclusive value="1"/>
+                                        <xs:totalDigits value="7"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Attachments" nillable="false" minOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence maxOccurs="unbounded" minOccurs="0">
+                                        <xs:element name="Attachment">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="AttachmentName" nillable="false" maxOccurs="1">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:normalizedString">
+                                                                <xs:minLength value="1"/>
+                                                                <xs:maxLength value="32"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="FileName" nillable="false" minOccurs="1"
+                                                                maxOccurs="1">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:normalizedString">
+                                                                <xs:minLength value="1"/>
+                                                                <xs:maxLength value="32"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="CreatedBy" nillable="false" maxOccurs="1">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:normalizedString">
+                                                                <xs:minLength value="1"/>
+                                                                <xs:maxLength value="32"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element name="CreatedOnDate" type="xs:dateTime"
+                                                                nillable="false"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

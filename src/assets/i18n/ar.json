@@ -1,0 +1,214 @@
+{
+	"title": "كوكب أرشيف",
+	"login": {
+		"username": "إسم المستخدم",
+		"password": "كلمة المرور",
+		"button": "تسجيل الدخول"
+	},
+	"nav": {
+		"administration": "الادارة",
+		"types": "أنواع",
+		"logout": "تسجيل الخروج",
+		"folders": "المجلدات",
+		"storage": "التخزين",
+		"users": "المستخدمين",
+		"processes": "Processes",
+		"forms": "Forms",
+		"about": "About"
+	},
+	"applications": {
+		"applications": "التطبيقات",
+		"home": "الصفحة الرئيسية",
+		"name": "اسم التطبيق",
+		"root": "جذر",
+		"tabs": {
+			"searches": "بحث",
+			"folders": "المجلدات"
+		}
+	},
+	"actions": {
+		"refresh": "تحديث",
+		"cancel": "إلغاء",
+		"close": "قريب",
+		"ok": "حسنا",
+		"save": "احتفظ",
+		"edit": "تحرير",
+		"remove": "إزالة",
+		"editJson": "تحريرJSON",
+		"add": "إضافة",
+		"find": "تجد",
+		"yes": "نعم فعلا",
+		"no": "لا",
+		"select": "Select value",
+		"export": "Export",
+		"selectAll": "Select all"
+	},
+	"loading": "انتظر...",
+	"search": {
+		"noSearches": "لا تتوفر عمليات بحث",
+		"data": {
+			"id": "معرف",
+			"title": "اسم",
+			"type": "نوع",
+			"modified": "تم التعديل",
+			"baseType": "نوع"
+		},
+		"form": {
+			"loading": "تحميل...",
+			"submit": "إرسال",
+			"clear": "Clean"
+		},
+		"noData": "لا توجد سجلات",
+		"columnsSetup": "Display Setup",
+		"total": "Total",
+		"facets": {
+			"other": "other...",
+			"back": "back to list"
+		}
+	},
+	"document": {
+		"newTitle": "إنشاء مستند",
+		"document": "الوثيقة",
+		"attachment": "استثمار",
+		"attachments": {
+			"remove": "حذف عنصر",
+			"selectFromDisk": "إختر من القرص",
+			"download": "تحميل"
+		},
+		"create": "إنشاء مستند",
+		"title": "اسم",
+		"descr": "وصف",
+		"type": "نوع",
+		"properties": "الخصائص",
+		"renditions": "Renditions",
+		"comments": {
+			"tab": "Comments"
+		},
+		"transmittals": {
+			"tab": "Transmittals"
+		},
+		"confirm": {
+			"remove": "هل أنت متأكد من أنك تريد إزالته؟"
+		},
+		"versions": {
+			"tab": "Versions",
+			"last": "Last version"
+		}
+	},
+	"type": {
+		"selectTitle": "أنواع",
+		"create": "إضافة",
+		"title": "اسم",
+		"properties": "خصائص",
+		"symbolic": "الاسم الرمزي",
+		"storagePolicy": "سياسة التخزين",
+		"parent": "نوع الوالد",
+		"attr": {
+			"title": "اسم العرض",
+			"id": "معرف",
+			"string": "خيط",
+			"number": "رقم",
+			"integer": "عدد صحيح",
+			"date": "تاريخ",
+			"required": "إلزامي",
+			"textarea": "Textarea",
+			"typeahead": "Typeahead",
+			"query_typeahead": "Search typeahead"
+		},
+		"access": "حقوق الوصول",
+		"tabs": "Optional Tabs",
+		"additionalProperties": "Restrict Additional Properties",
+		"permissions": {
+			"notSelected": "not selected",
+			"title": "حقوق الوصول",
+			"role": "Role",
+			"members": "Members"
+		},
+		"audit": {
+			"title": "Audit",
+			"read": "Read",
+			"create": "Create",
+			"update": "Update",
+			"delete": "Delete",
+			"error": "Error",
+			"event": "Event",
+			"timing": "Timing"
+		},
+		"retentionPolicy": "Retention Policy",
+		"alerts": {
+			"removeWithChildren": "You cannot remove Type having child types!",
+			"removeWithDocs": "You cannot remove Type having instances!"
+		},
+		"datasource": "Datasource"
+	},
+	"page": {
+		"next": "التالى",
+		"prev": "سابق",
+		"more": "Load more..."
+	},
+	"folder": {
+		"create": "المجلدات إضافة",
+		"folder": "المجلدات",
+		"edit": "المجلدات تحرير"
+	},
+	"system": {
+		"create": "System Document",
+		"newTitle": "إنشاء"
+	},
+	"storage": {
+		"policies": "سياسة التخزين",
+		"types": "أنواع التخزين",
+		"retention": "Retention Policies",
+		"processRetention": {
+			"action": "Execute",
+			"result": "Result"
+		}
+	},
+	"users": {
+		"users": "المستخدمين",
+		"groups": "المجموعات",
+		"login": "اسم الدخول",
+		"fullName": "الاسم الكامل",
+		"tenant": "Tenant",
+		"email": "البريد الإلكتروني",
+		"lang": "لغة",
+		"groupId": "معرف",
+		"groupName": "اسم",
+		"newTitle": "إنشاء"
+	},
+	"roles": {
+		"read": "Read",
+		"view_prop": "View Properties",
+		"edit_prop": "Edit Properties",
+		"change_content": "Change Content",
+		"modify_security": "Change Security",
+		"delete": "Delete",
+		"full": "Full Access"
+	},
+	"setup": {
+		"visibleColumns": "Visible Columns",
+		"pageSize": "Page Size"
+	},
+	"error": {
+		"title": "Error"
+	},
+	"export": {
+		"title": "Export",
+		"run": "Run",
+		"types": {
+			"all": "All",
+			"selected": "Selected"
+		},
+		"desc": {
+			"selected": "Objects selected for export: {{count}}",
+			"folder": "\"{{title}}\" folder contents export",
+			"search": "\"{{title}}\" search results export",
+			"ftsearch": "\"{{query}}\" search results export"
+		},
+		"result": {
+			"format": "Result file format",
+			"subfolders": "Include subfolders"
+		},
+		"nothing": "No data for export"
+	}
+}

@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left" [textContent]="formTitle">Document</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <ng-template appDynComponent></ng-template>
+</div>
+<div class="modal-footer" *ngIf="mode">
+  <button type="button" class="btn btn-success btn-sm" (click)="submit()" i18n="@@dialogSaveButton" [translate]="'actions.save'" [disabled]="!formIsValid">Save</button>
+  <button type="button" class="btn btn-default btn-sm" (click)="bsModalRef.hide()" i18n="@@dialogCancelButton" [translate]="'actions.cancel'">Cancel</button>
+</div>
+<div class="modal-footer" *ngIf="!mode">
+  <button type="button" class="btn btn-danger btn-sm" (click)="remove()" [translate]="'actions.remove'" *ngIf="showRemove">Remove</button>
+  <button type="button" class="btn btn-primary btn-sm" (click)="edit()" [translate]="'actions.edit'" *ngIf="showEdit">Edit</button>
+  <button type="button" class="btn btn-primary btn-sm" (click)="editJson()" [translate]="'actions.editJson'"
+  *ngIf="showEditJson">Edit JSON</button>
+  <button type="button" class="btn btn-default btn-sm" (click)="bsModalRef.hide()" i18n="@@dialogCloseButton" [translate]="'actions.close'">Close</button>
+</div>

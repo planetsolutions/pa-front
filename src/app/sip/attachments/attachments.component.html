@@ -1,0 +1,19 @@
+<table class="table">
+
+  <tbody>
+  <tr *ngFor="let att of attachments; let idx = index">
+    <td *ngIf="multi">{{ idx + 1}}.</td>
+    <td>{{att.name}}</td>
+    <td>
+            <span class="glyphicon glyphicon-remove remove" (click)="removeAttachment(att)"
+                  i18n-title="@@createDocumentRemoveAttachmentTitle"
+                  title="{{'document.attachments.remove' | translate}}"></span>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="multi || attachments.length == 0">
+  <input name="file" type="file" id="file" class="inputfile" (change)="onChange($event)"/>
+  <label for="file" i18n="@@createDocumentSelectAttachmentFromDiskButton" [translate]="'document.attachments.selectFromDisk'">Select from disk</label>
+</div>

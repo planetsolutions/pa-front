@@ -1,0 +1,56 @@
+  <tabset>
+    <tab [heading]="'document.properties' | translate" id="tab1" [ngStyle]="{'max-height': maxHeight+'px', 'overflow':'auto', 'padding':'10px'}">
+      <json-schema-form *ngIf="formSchema"
+                                 [options]="jsonFormOptions"
+                                 (onSubmit)="onSubmit()"
+                                 (onChanges)="onFormChanges($event)"
+                                 (isValid)="isValid($event)"
+                        (validationErrors)="onValidationErrors($event)"
+                                 [data]="docData"
+                                 [widgets]="widgets"
+                                 [form]="formSchema"
+                                 framework="bootstrap-3">
+      </json-schema-form>
+      <div style="line-height: 30px; margin-bottom: 10px" *ngIf="!!formError">{{formError}}</div>
+    </tab>
+    <tab [heading]="'document.attachment' | translate" id="tab2" style="padding:10px; min-height: 200px">
+        <div *ngIf="!canEditFile && doc && !!doc.fileName">
+          <table class="table">
+            <tbody>
+            <tr valign="middle">
+              <td width="30" [innerHTML]="doc.fileName | mimeIcon"></td>
+              <td><a href="javascript://" (click)="download()" [title]="'document.attachments.download' | translate">{{doc.fileName}}</a></td>
+              <td width="100" align="right"><em [innerHTML]="doc.fileLength | fileSize"></em></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="canEditFile && !isSystem">
+          <app-attachments  (attachmentsChange)="onAttachmentsChange($event)" [multi]="false"></app-attachments>
+        </div>
+
+      <div *ngIf="renditions && renditions.length > 0" style="margin-top:20px">
+        <label>{{'document.renditions' | translate }}:</label>
+        <table class="table">
+          <tbody>
+          <tr *ngFor="let att of renditions" valign="middle">
+            <td width="30" [innerHTML]="att.fileName | mimeIcon"></td>
+            <td><a href="javascript://" (click)="download(att.id)" [title]="'document.attachments.download' | translate">{{att.fileName}}</a></td>
+            <td width="100" align="right"><em [innerHTML]="att.fileSize | fileSize"></em></td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </tab>
+    <ng-container *ngIf="docId">
+      <tab  *ngFor="let tabId of docType?.optionalTabs"
+           [heading]="tabsByName[tabId]?.title | translate" id="tab_{{tabId}}"
+           style="padding:10px; min-height: 200px"
+           (select)="onTabOpen(tabId)">
+        <app-sip-form-pg-tab [tabId]="tabId" [activeTabId]="activeTabName" [doc]="doc" [application]="application"></app-sip-form-pg-tab>
+      </tab>
+    </ng-container>
+
+  </tabset>
+

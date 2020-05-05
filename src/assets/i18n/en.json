@@ -1,0 +1,214 @@
+{
+	"title": "Planet Archive",
+	"login": {
+		"username": "Username",
+		"password": "Password",
+		"button": "Login"
+	},
+	"nav": {
+		"administration": "Administration",
+		"types": "Types",
+		"logout": "Logout",
+		"folders": "Folders",
+		"storage": "Storage",
+		"users": "Users",
+		"processes": "Processes",
+		"forms": "Forms",
+		"about": "About"
+	},
+	"applications": {
+		"applications": "Applications",
+		"home": "Home",
+		"name": "App Name",
+		"root": "Root",
+		"tabs": {
+			"searches": "Searches",
+			"folders": "Folders"
+		}
+	},
+	"actions": {
+		"refresh": "Refresh",
+		"cancel": "Cancel",
+		"close": "Close",
+		"ok": "OK",
+		"save": "Save",
+		"edit": "Edit",
+		"remove": "Remove",
+		"editJson": "Edit JSON",
+		"add": "Add",
+		"find": "Find",
+		"yes": "Yes",
+		"no": "No",
+		"select": "Select value",
+		"export": "Export",
+		"selectAll": "Select all"
+	},
+	"loading": "Loading...",
+	"search": {
+		"noSearches": "No searches available",
+		"data": {
+			"id": "Id",
+			"title": "Title",
+			"type": "Type",
+			"modified": "Modified",
+			"baseType": "Base Type"
+		},
+		"form": {
+			"loading": "Loading...",
+			"submit": "Submit",
+			"clear": "Clean"
+		},
+		"noData": "No records found",
+		"columnsSetup": "Display Setup",
+		"total": "Total",
+		"facets": {
+			"other": "other...",
+			"back": "back to list"
+		}
+	},
+	"document": {
+		"newTitle": "New Document",
+		"document": "Document",
+		"attachment": "Attachments",
+		"attachments": {
+			"remove": "Remove item",
+			"selectFromDisk": "Select from Disk",
+			"download": "download"
+		},
+		"create": "Create Document",
+		"title": "Title",
+		"descr": "Description",
+		"type": "Type",
+		"properties": "Properties",
+		"renditions": "Renditions",
+		"comments": {
+			"tab": "Comments"
+		},
+		"transmittals": {
+			"tab": "Transmittals"
+		},
+		"confirm": {
+			"remove": "Are you sure you want to remove it?"
+		},
+		"versions": {
+			"tab": "Versions",
+			"last": "Last version"
+		}
+	},
+	"type": {
+		"selectTitle": "Types",
+		"create": "Add",
+		"title": "Title",
+		"properties": "Properties",
+		"symbolic": "Symbolic Name",
+		"storagePolicy": "Storage Policy",
+		"parent": "Parent Type",
+		"attr": {
+			"title": "Display Name",
+			"id": "Id",
+			"string": "String",
+			"number": "Number",
+			"integer": "Integer",
+			"date": "Date",
+			"required": "Required",
+			"textarea": "Textarea",
+			"typeahead": "Typeahead",
+			"query_typeahead": "Search typeahead"
+		},
+		"access": "Access Rights",
+		"tabs": "Optional Tabs",
+		"additionalProperties": "Restrict Additional Properties",
+		"permissions": {
+			"notSelected": "not selected",
+			"title": "Access Rights",
+			"role": "Role",
+			"members": "Members"
+		},
+		"audit": {
+			"title": "Audit",
+			"read": "Read",
+			"create": "Create",
+			"update": "Update",
+			"delete": "Delete",
+			"error": "Error",
+			"event": "Event",
+			"timing": "Timing"
+		},
+		"retentionPolicy": "Retention Policy",
+		"alerts": {
+			"removeWithChildren": "You cannot remove Type having child types!",
+			"removeWithDocs": "You cannot remove Type having instances!"
+		},
+		"datasource": "Datasource"
+	},
+	"page": {
+		"next": "next",
+		"prev": "prev",
+		"more": "Load more..."
+	},
+	"folder": {
+		"create": "Add Folder",
+		"folder": "Folder",
+		"edit": "Edit Folder"
+	},
+	"system": {
+		"create": "System Document",
+		"newTitle": "New Item"
+	},
+	"storage": {
+		"policies": "Storage Policies",
+		"types": "Storage Types",
+		"retention": "Retention Policies",
+		"processRetention": {
+			"action": "Execute",
+			"result": "Result"
+		}
+	},
+	"users": {
+		"users": "Users",
+		"groups": "Groups",
+		"login": "Login Name",
+		"fullName": "Full Name",
+		"tenant": "Tenant",
+		"email": "Email",
+		"lang": "Language",
+		"groupId": "Id",
+		"groupName": "Title",
+		"newTitle": "New Group"
+	},
+	"roles": {
+		"read": "Read",
+		"view_prop": "View Properties",
+		"edit_prop": "Edit Properties",
+		"change_content": "Change Content",
+		"modify_security": "Change Security",
+		"delete": "Delete",
+		"full": "Full Access"
+	},
+	"setup": {
+		"visibleColumns": "Visible Columns",
+		"pageSize": "Page Size"
+	},
+	"error": {
+		"title": "Error"
+	},
+	"export": {
+		"title": "Export",
+		"run": "Run",
+		"types": {
+			"all": "All",
+			"selected": "Selected"
+		},
+		"desc": {
+			"selected": "Objects selected for export: {{count}}",
+			"folder": "\"{{title}}\" folder contents export",
+			"search": "\"{{title}}\" search results export",
+			"ftsearch": "\"{{query}}\" search results export"
+		},
+		"result": {
+			"format": "Result file format",
+			"subfolders": "Include subfolders"
+		},
+		"nothing": "No data for export"
+	}
+}

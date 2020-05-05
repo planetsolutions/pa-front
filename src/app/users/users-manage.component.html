@@ -1,0 +1,44 @@
+<div class="row">
+
+  <div class="col-md-4 col-lg-2">
+    <div class="well">
+      <tree-root #tree [nodes]="treeNodes" [options]="options"></tree-root>
+    </div>
+  </div>
+
+
+  <div class="col-md-8 col-lg-10">
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px"><tr><td>
+      <ol class="breadcrumb" style="margin: 0 !important">
+        <li [translate]="'nav.administration'"></li>
+        <li *ngIf="selectedType === 'users'" [translate]="'users.users'"></li>
+        <li *ngIf="selectedType === 'groups'" [translate]="'users.groups'"></li>
+      </ol>
+    </td>
+    <td style="width: 40%">
+        <div class="input-group input-group-sm">
+          <input [(ngModel)]="query" class="form-control input-sm" (keyup.enter)="refresh()" placeholder="{{'actions.find' | translate}}">
+          <div class="input-group-btn">
+            <button class="btn btn-default btn-sm" type="button" (click)="query = ''; refresh()" >
+              <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button class="btn btn-primary btn-sm" type="button" (click)="refresh()" >
+              <i class="glyphicon glyphicon-search"></i>
+            </button>
+          </div>
+        </div>
+    </td>
+    <td *ngIf="selectedType === 'groups'" align="right" [ngStyle]="{width: 45+'px'}">
+
+      <button type="button" *ngIf="selectedType === 'groups'" (click)="addGroup()" class="btn btn-default btn-sm"
+              [attr.title]="'actions.add' | translate"><i class="glyphicon glyphicon-plus"></i></button>
+
+    </td></tr></table>
+
+    <app-objects-list [columns]="dataColumns" [rows]="dataRows"  *ngIf="selectedType"
+                      [total]="dataTotalCount" [page]="pageNum" [pageSize]="1000" [loading]="isLoading"
+                      (itemOpen)="onItemOpen($event)" (pageChange)="onItemsPageChange($event)"></app-objects-list>
+  </div>
+</div>
+
+

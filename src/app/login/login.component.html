@@ -1,0 +1,33 @@
+<div class="col-md-offset-4 col-md-4">
+  <div class="well">
+    <form (ngSubmit)="submit()">
+      <div class="input-group">
+        <input type="text" class="form-control"
+               i18n-placeholder="@@loginUsername"
+               [attr.placeholder]="'login.username' | translate" aria-describedby="sizing-addon2"
+               [(ngModel)]="username" name="username"
+               [disabled]="loggingIn"
+        >
+        <span class="input-group-addon" id="sizing-addon2">@</span>
+      </div>
+      <br/>
+      <div class="input-group">
+        <input type="password" class="form-control"
+               [attr.placeholder]="'login.password' | translate"
+               i18n-placeholder="@@loginPassword"
+               [(ngModel)]="password" name="password"
+               [disabled]="loggingIn"
+        >
+        <span class="input-group-btn">
+
+          <button class="btn btn-success" type="submit"
+                  [ngClass]="{'disabled': loggingIn}"
+                  [disabled]="loggingIn"
+                  i18n="@@loginButton" >{{'login.button' | translate}}</button>
+        </span>
+      </div>
+      <br/>
+      <div class="alert alert-danger" role="alert" *ngIf="error">{{ error }}</div>
+    </form>
+  </div>
+</div>

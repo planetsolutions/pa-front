@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left" i18n="@@typeSelectTitle" [translate]="'type.selectTitle'">Document Types</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <tree-root #tree [nodes]="treeNodes" [options]="options"></tree-root>
+</div>
+<div class="modal-footer">
+  <button type="button" [disabled]="!tree.treeModel.getActiveNode()"
+          class="btn btn-primary" (click)="ok()" i18n="@@dialogOkButton" [translate]="'actions.ok'">OK</button>
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()" i18n="@@dialogCancelButton" [translate]="'actions.cancel'">cancel</button>
+</div>

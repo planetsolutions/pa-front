@@ -1,0 +1,27 @@
+<form name="docForm" #docForm="ngForm" (change)="formChanged(docForm)" (focus)="formChanged(docForm)">
+   <div class="form-group">
+     <label [translate]="'document.title'">Title</label>:
+     <input class="form-control input-sm" [(ngModel)]="doc.title" name="title" required>
+   </div>
+   <div class="form-group">
+     <label [translate]="'document.type'">Type</label>:
+     <input class="form-control input-sm" [(ngModel)]="doc.type" name="type" required>
+   </div>
+   <div class="form-group">
+     <label [translate]="'document.descr'">Description</label>:
+     <textarea class="form-control input-sm" [(ngModel)]="doc.description" name="descr" style="resize: none"></textarea>
+   </div>
+   <div class="form-group">
+     <label>JSON</label>:
+   </div>
+   <div style="height:350px">
+     <div ace-editor
+          [content]="doc.data | json"
+          [options]="aceEditorOptions"
+          [readOnly]="false"
+          [autoUpdateContent]="true"
+          (textChanged) = "onJsonChange($event)"
+          style="width:100%; min-height:270px; overflow: auto; border: 1px solid black;"></div>
+     <div *ngIf="parseError" class="text-danger">{{parseError}}</div>
+   </div>
+</form>

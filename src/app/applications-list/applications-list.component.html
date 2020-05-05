@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <ol class="breadcrumb" style="margin: 0 !important">
+    <h4 [translate]="'applications.applications'"></h4>
+  </ol>
+<br/>
+    <div class="col-xs-12 col-sm-10 col-md-6" *ngFor="let app of applications">
+      <div  class="well well-sm" style="min-height: 100px">
+        <div class="pull-left mdi  mdi-{{app.icon}} mdi-36px" style="width: 50px"></div><a [routerLink]="['/applications', app.uuid]"><h4>{{app.name}} </h4></a>
+        <p>{{app.description}}</p>
+      </div>
+    </div>
+</div>

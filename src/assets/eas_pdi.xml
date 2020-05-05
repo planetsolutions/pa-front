@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<documents xmlns='urn:ia:en:xsd:documentholding.1.0'>
+  <document>
+    <docId>1470742043329-21229889991</docId>
+    <name>DocDoc</name>
+    <author>Administrator</author>
+    <creationDate>2016-08-09T16:57:34.454+05:30</creationDate>
+    <version>1</version>
+
+    <attachments>
+      <attachment>
+        <name>sample1.pdf</name>
+        <filePath></filePath>
+        <size>8017</size>
+        <mediaType>application/pdf</mediaType>
+        <createdBy>Creators</createdBy>
+        <creationDate>2016-08-09T16:57:23.329+05:30</creationDate>
+      </attachment>
+
+    </attachments>
+  </document>
+</documents>

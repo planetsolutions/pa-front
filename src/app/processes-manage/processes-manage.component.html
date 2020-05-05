@@ -1,0 +1,26 @@
+<div class="row">
+
+  <div class="col-md-4 col-lg-2">
+    <div class="well">
+      <tree-root #tree [nodes]="treeNodes" [options]="options"></tree-root>
+    </div>
+  </div>
+
+
+  <div class="col-md-8 col-lg-10">
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px"><tr><td>
+        <ol class="breadcrumb" style="margin: 0 !important">
+          <li [translate]="'nav.processes'"></li>
+          <li *ngIf="selectedType" class="active">{{selectedType.title}}</li>
+        </ol>
+      </td><td align="right" style="width:50px">
+
+        <button type="button" *ngIf="selectedType" (click)="add()" class="btn btn-default btn-sm"
+                [attr.title]="'actions.add' | translate"><i class="glyphicon glyphicon-plus"></i></button>
+      </td></tr></table>
+
+    <app-objects-list [columns]="dataColumns" [rows]="dataRows"  *ngIf="selectedType"
+                      [total]="dataTotalCount" [page]="pageNum" [loading]="isLoading"
+                      (itemOpen)="onItemOpen($event)" (pageChange)="onItemsPageChange($event)"></app-objects-list>
+  </div>
+</div>

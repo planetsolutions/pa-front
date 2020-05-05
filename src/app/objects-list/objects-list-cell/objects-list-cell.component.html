@@ -1,0 +1,6 @@
+<a *ngIf="isLink" href="javascript:;" (click)="onLinkClick()" class="{{valueClass}}" > {{ value }} </a>
+
+<span *ngIf="isIcon && value && !column.value" [innerHTML]="value | mimeIcon" [title]="value"></span>
+<span *ngIf="isIcon && iconName" class="mdi  mdi-{{iconName}} mdi-24px" style="line-height: 16px;" [title]="value"></span>
+
+<span *ngIf="!isLink && !isIcon" class="{{valueClass}}"> {{ value }} </span>

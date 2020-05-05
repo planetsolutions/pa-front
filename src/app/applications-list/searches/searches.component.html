@@ -1,0 +1,89 @@
+
+  <div class="sidenav" [@panelWidthTrigger]="expandedState" appStickyHeader >
+    <div class="well well-sm menu-body">
+      <div style="margin-bottom: 15px" *ngIf="expanded && application?.useFTSearch">
+        <input #ftQueryInput class="form-control input-sm" [(ngModel)]="ftQuery" (keyup.enter)="ftSearch(ftQueryInput.value)" [attr.placeholder]="'actions.find' | translate">
+      </div>
+
+      <div [ngStyle]="{'height': menuMaxHeight+'px', 'overflow':'auto'}">
+
+        <a href="javascript://" (click)="toggleExpandedState()" class="pull-right">
+          <i *ngIf="expanded" class="glyphicon glyphicon-chevron-left"></i>
+          <i *ngIf="!expanded" class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+
+        <tabset *ngIf="expanded">
+          <tab [customClass]="'menuBarTab'" heading="{{'applications.tabs.searches' | translate}}" id="tabSearch"
+               [active]="tab1Active" (select)="tab1Active = true" (deselect)="tab1Active = false">
+            <div *ngIf="ftAggregations && !selectedSearch && !selectedFolder">
+              <a href="javascript://" style="display: block; margin-bottom: 10px" (click)="ftAggregations = null">&lt;&lt;&nbsp;{{ 'search.facets.back' | translate }}</a>
+              <app-facets [aggregations]="ftAggregations" (onChange)="onAggregationSelected($event)"></app-facets>
+            </div>
+            <ul *ngIf='!loadingSearches && !ftAggregations' class="nav nav-pills nav-stacked">
+              <li *ngFor="let search of searches"
+                  role="presentation"
+                  [ngClass]="{'active': search == selectedSearch}">
+                <a class='nav-item-clickable'
+                   (click)="selectSearch(search)">{{ search.name }}</a>
+              </li>
+            </ul>
+            <span *ngIf="loadingSearches"  [translate]="'loading'">Loading..</span>
+            <span [ngClass]="{'hidden': (searches && searches.length > 0) || loadingSearches}"
+                   [translate]="'search.noSearches'">No searches available</span>
+
+          </tab>
+          <tab [customClass]="'menuBarTab'" heading="{{'applications.tabs.folders' | translate}}" id="tabFolders"
+               [active]="tab2Active" (select)="tab2Active = true" (deselect)="tab2Active = false" *ngIf="application?.platform === platforms.PG">
+              <app-application-tree [application]="application" (selectionChange)="onTreeFolderSelected($event)" (rootLoaded)="onRootFolderLoaded($event)"></app-application-tree>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+  <div class="main" [@bodyMarginTrigger]="expandedState">
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px"><tr><td>
+      <ol class="breadcrumb" style="margin: 0 !important">
+        <li><a routerLink="/" [translate]="'applications.applications'"></a></li>
+        <li *ngIf="application" class="active">{{ application.name }}</li>
+        <li *ngFor="let crumb of breadCrumbs; let i = index">
+          <a *ngIf="!!crumb.func" href="javascript://" (click)="crumb.func(i)">{{crumb.name}}</a>
+          <span *ngIf="!crumb.func">{{crumb.name}}</span>
+        </li>
+        <span *ngIf="dataTotalCount >= 0 && !dataTotalCountLoading" class="pull-right">{{'search.total' | translate}}: {{dataTotalCount}}</span>
+        <span *ngIf="dataTotalCountLoading" class="pull-right">{{'search.total' | translate}}:
+          <div class="spinner spinner-sm" style="display: inline-block"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></span>
+      </ol>
+
+    </td>
+    <td align="right" [ngStyle]="{'width': (selectedFolder ? '165px' : (selectedSearch ? '125px' : '85px'))}">
+        <button type="button" (click)="refresh()" *ngIf="selectedFolder" class="btn btn-default btn-sm"
+                [attr.title]="'actions.refresh' | translate"><i class="glyphicon glyphicon-refresh"></i></button>
+        <button type="button" (click)="openSearch()" *ngIf="selectedSearch" class="btn btn-default btn-sm"
+                [attr.title]="'actions.find' | translate"><i class="glyphicon glyphicon-search"></i></button>
+        <button type="button" (click)="createDoc()" class="btn btn-default btn-sm" *ngIf="selectedFolder"
+                [attr.title]="'document.create' | translate"><i class="glyphicon glyphicon-plus"></i></button>
+        <button type="button" (click)="setupColumns()" class="btn btn-default btn-sm"
+                [attr.title]="'search.columnsSetup' | translate"><i class="glyphicon glyphicon-cog"></i></button>
+        <div class="btn-group btn-group-sm" dropdown>
+          <button dropdownToggle type="button" class="btn btn-default dropdown-toggle" [attr.title]="'actions.export' | translate">
+            <i class="glyphicon glyphicon-export"></i> <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu" style="left:-120px !important">
+            <li role="menuitem" *ngIf="selectedSearch"><a class="dropdown-item" href="javascript://" (click)="export()" [translate]="'export.types.all'"></a></li>
+            <li role="menuitem"><a class="dropdown-item" href="javascript://" (click)="export(true)" [translate]="'export.types.selected'"></a></li>
+          </ul>
+        </div>
+    </td></tr></table>
+
+    <div class="row">
+      <div class="col-md-12">
+        <app-objects-list *ngIf="setupDisp?.columns" [columns]="setupDisp.columns" [rows]="dataRows" [pageSize]="pageSize" [checkboxes]="true"
+        [customizable]="true" [total]="dataTotalCount" [application]="application" [page]="pageNum" [loading]="isLoading" [pagingType]="pagingType"
+                          [showMore]="!isLastPage"
+        (sortChange)="onSort($event)" (itemOpen)="onItemOpen($event)" (pageChange)="onItemsPageChange($event)"
+                          (selectionChange)="onRowsSelected($event)"
+        ></app-objects-list>
+      </div>
+    </div>
+  </div>

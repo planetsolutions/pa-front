@@ -1,0 +1,214 @@
+{
+	"title": "Planète Archives",
+	"login": {
+		"username": "Nom d'utilisateur",
+		"password": "Mot de passe",
+		"button": "Connexion"
+	},
+	"nav": {
+		"administration": "Administration",
+		"types": "Types",
+		"logout": "Déconnexion",
+		"folders": "Dossiers",
+		"storage": "Stockage",
+		"users": "Utilisateurs",
+		"processes": "Processes",
+		"forms": "Forms",
+		"about": "About"
+	},
+	"applications": {
+		"applications": "Applications",
+		"home": "Accueil",
+		"name": "Nom de l'App",
+		"root": "Racine",
+		"tabs": {
+			"searches": "Recherches",
+			"folders": "Dossiers"
+		}
+	},
+	"actions": {
+		"refresh": "Mettre",
+		"cancel": "Annuler",
+		"close": "Fermer",
+		"ok": "Bien",
+		"save": "Enregistrer",
+		"edit": "Modifier",
+		"remove": "Retirer",
+		"editJson": "Modifier JSON",
+		"add": "Ajouter",
+		"find": "Trouver",
+		"yes": "Oui",
+		"no": "Non",
+		"select": "Select value",
+		"export": "Export",
+		"selectAll": "Select all"
+	},
+	"loading": "Attendre...",
+	"search": {
+		"noSearches": "Pas de recherches disponibles",
+		"data": {
+			"id": "Id",
+			"title": "Titre",
+			"type": "Type",
+			"modified": "Modifié",
+			"baseType": "Type"
+		},
+		"form": {
+			"loading": "Chargement",
+			"submit": "Soumettre",
+			"clear": "Clean"
+		},
+		"noData": "Aucun enregistrement trouvé",
+		"columnsSetup": "Display Setup",
+		"total": "Total",
+		"facets": {
+			"other": "other...",
+			"back": "back to list"
+		}
+	},
+	"document": {
+		"newTitle": "Créer document",
+		"document": "Document",
+		"attachment": "Pièce jointe",
+		"attachments": {
+			"remove": "Supprimer élément",
+			"selectFromDisk": "Sélectionner sur le disque",
+			"download": "télécharger"
+		},
+		"create": "Créer document",
+		"title": "Titre",
+		"descr": "Description",
+		"type": "Type",
+		"properties": "Propriétés",
+		"renditions": "Renditions",
+		"comments": {
+			"tab": "Comments"
+		},
+		"transmittals": {
+			"tab": "Transmittals"
+		},
+		"confirm": {
+			"remove": "Êtes-vous sûr de vouloir l'enlever?"
+		},
+		"versions": {
+			"tab": "Versions",
+			"last": "Last version"
+		}
+	},
+	"type": {
+		"selectTitle": "Types",
+		"create": "Ajouter",
+		"title": "Titre",
+		"properties": "Propriétés",
+		"symbolic": "Nom symbolique",
+		"storagePolicy": "Politique de stockage",
+		"parent": "Type de parent",
+		"attr": {
+			"title": "Afficher un nom",
+			"id": "Id",
+			"string": "Chaîne",
+			"number": "Nombre",
+			"integer": "Entier",
+			"date": "Date",
+			"required": "Obligatoire",
+			"textarea": "Textarea",
+			"typeahead": "Typeahead",
+			"query_typeahead": "Search typeahead"
+		},
+		"access": "Des droits d'accès",
+		"tabs": "Optional Tabs",
+		"additionalProperties": "Restrict Additional Properties",
+		"permissions": {
+			"notSelected": "not selected",
+			"title": "Des droits d'accès",
+			"role": "Role",
+			"members": "Members"
+		},
+		"audit": {
+			"title": "Audit",
+			"read": "Read",
+			"create": "Create",
+			"update": "Update",
+			"delete": "Delete",
+			"error": "Error",
+			"event": "Event",
+			"timing": "Timing"
+		},
+		"retentionPolicy": "Retention Policy",
+		"alerts": {
+			"removeWithChildren": "You cannot remove Type having child types!",
+			"removeWithDocs": "You cannot remove Type having instances!"
+		},
+		"datasource": "Datasource"
+	},
+	"page": {
+		"next": "prochain",
+		"prev": "précédent",
+		"more": "Load more..."
+	},
+	"folder": {
+		"create": "Ajouter Dossier",
+		"folder": "Dossier",
+		"edit": "Modifier Dossier"
+	},
+	"system": {
+		"create": "System Document",
+		"newTitle": "Créer elemet"
+	},
+	"storage": {
+		"policies": "Politiques de stockage",
+		"types": "Types de stockage",
+		"retention": "Retention Policies",
+		"processRetention": {
+			"action": "Execute",
+			"result": "Result"
+		}
+	},
+	"users": {
+		"users": "Utilisateurs",
+		"groups": "Groupes",
+		"login": "Identifiant",
+		"fullName": "Nom complet",
+		"tenant": "Tenant",
+		"email": "Email",
+		"lang": "Langue",
+		"groupId": "Id",
+		"groupName": "Titre",
+		"newTitle": "Créer group"
+	},
+	"roles": {
+		"read": "Read",
+		"view_prop": "View Properties",
+		"edit_prop": "Edit Properties",
+		"change_content": "Change Content",
+		"modify_security": "Change Security",
+		"delete": "Delete",
+		"full": "Full Access"
+	},
+	"setup": {
+		"visibleColumns": "Visible Columns",
+		"pageSize": "Page Size"
+	},
+	"error": {
+		"title": "Error"
+	},
+	"export": {
+		"title": "Export",
+		"run": "Run",
+		"types": {
+			"all": "All",
+			"selected": "Selected"
+		},
+		"desc": {
+			"selected": "Objects selected for export: {{count}}",
+			"folder": "\"{{title}}\" folder contents export",
+			"search": "\"{{title}}\" search results export",
+			"ftsearch": "\"{{query}}\" search results export"
+		},
+		"result": {
+			"format": "Result file format",
+			"subfolders": "Include subfolders"
+		},
+		"nothing": "No data for export"
+	}
+}

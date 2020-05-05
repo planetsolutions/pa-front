@@ -1,0 +1,38 @@
+.nav-item-clickable {
+  cursor: pointer;
+}
+
+.pull-bottom {
+  display: inline-block;
+  vertical-align: bottom;
+  float: none;
+}
+
+.sidenav {
+  width: 220px;
+  position: absolute;
+  z-index: 1;
+  left: 10px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.main {
+  margin-left: 230px; /* Same width as the sidebar + left position in px */
+  padding: 0px 10px;
+}
+
+.menu-body {
+  min-height:400px;
+  overflow-y: auto
+}
+
+.sidenav .nav>li>a {
+  padding: 5px 7px;
+}
+
+.dropdown-menu {
+  top: auto
+}
+

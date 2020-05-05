@@ -1,0 +1,48 @@
+<table class="table table-striped table-condensed table-responsive table-hover table-bordered" style="margin-bottom:10px !important">
+  <thead appStickyHeader style="background-color: white">
+    <tr valign="middle">
+      <th *ngIf="checkboxes"><input type="checkbox" [attr.title]="'actions.selectAll' | translate" (click)="selectAll($event)" [checked]="selectAllChecked"></th>
+      <th *ngFor="let col of columns; let i = index" [ngClass]="{'small':true, 'sortable': col.sortable, 'sorted': sortedBy === col.name}" (click)="sort(col)">
+        {{ col.label }}
+        <span *ngIf="col.sortable"
+              [className]="'pull-right glyphicon sort-icon ' + (sortedBy === col.name && !sortedAsc ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down') "
+        ></span>
+      </th>
+    </tr>
+  </thead>
+  <tbody *ngIf="pagingType === 'continuation' && _rows && rowsCount > 0 && !loading" style="max-height: 200px; overflow-y: scroll"
+         infiniteScroll [infiniteScrollDisabled]="!(_rows && rowsCount > 0 && !loading && showMore)"
+         [infiniteScrollDistance]="0.5" [infiniteScrollThrottle]="300"(scrolled)="onPageChange($event)" >
+    <tr *ngFor="let row of _rows  | async">
+      <td *ngIf="checkboxes"><input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)"></td>
+      <td *ngFor="let col of columns">
+        <app-objects-list-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)"></app-objects-list-cell>
+      </td>
+    </tr>
+
+  </tbody>
+  <tbody *ngIf="pagingType === 'pages' && _rows && rowsCount > 0 && !loading" style="max-height: 200px; overflow-y: scroll">
+  <tr *ngFor="let row of _rows  | async |  paginate: (pagingType === 'continuation' ? false : {id: 'pagination',
+    itemsPerPage: pageSize,
+    currentPage: page,
+    totalItems: total})">
+    <td *ngIf="checkboxes"><input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)"></td>
+    <td *ngFor="let col of columns">
+      <app-objects-list-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)"></app-objects-list-cell>
+    </td>
+  </tr>
+
+  </tbody>
+</table>
+
+<pagination-controls (pageChange)="onPageChange($event)" id="pagination" autoHide="true"
+                     *ngIf="pagingType === 'pages' && _rows && rowsCount > 0 && !loading" [nextLabel]="'page.next' | translate " [previousLabel]="'page.prev' | translate"></pagination-controls>
+
+<!--<div *ngIf="pagingType === 'continuation' && _rows && rowsCount > 0 && !loading && showMore" style="margin-bottom: 40px; margin-left: 20px">
+  <a href="javascript://" (click)="onPageChange($event)" [translate]="'page.more'"> </a>
+</div>-->
+
+<div class="text-center">
+  <span *ngIf="_rows && rowsCount == 0 && !loading" i18n="@@objectsListNoData" [translate]="'search.noData'">No records found</span>
+  <div *ngIf="loading" class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+</div>

@@ -1,0 +1,39 @@
+<div [formGroup]="form">
+  <label [attr.for]="question.key">{{question.label}}</label>
+
+  <div [ngSwitch]="question.controlType">
+
+    <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
+           [id]="question.key" [type]="question.type" class = "form-control"
+           [min]="question.min" [max]="question.max">
+
+    <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
+      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+    </select>
+
+  </div>
+
+  <div *ngIf="form.get([question.key]).hasError('required') &&
+                        form.get([question.key]).touched"
+       class="alert alert-danger"
+       i18n="@@dynamicFormRequiredField"
+  >
+    Required field.
+  </div>
+  <div *ngIf="form.get([question.key]).hasError('minlength') &&
+                        form.get([question.key]).touched"
+       class="alert alert-danger"
+       i18n="@@dynamicFormMinSymbols"
+  >
+    Length should be not less than {{question.minLength}} symbols.
+  </div>
+  <div *ngIf="form.get([question.key]).hasError('maxlength') &&
+                        form.get([question.key]).touched"
+       class="alert alert-danger"
+       i18n="@@dynamicFormMaxSymbols"
+  >
+    Length should be not more than {{question.maxLength}} symbols.
+  </div>
+
+</div>
+

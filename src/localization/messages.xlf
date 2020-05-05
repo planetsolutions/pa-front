@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="breadcrumbHome" datatype="html">
+        <source>Home</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\app-routing\page-not-found\page-not-found.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\applications-list.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\search-results\search-results.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\searches.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="breadcrumbAppNameStub" datatype="html">
+        <source>App name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\search-results\search-results.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\searches.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="breadcrumbCreateDocument" datatype="html">
+        <source>Create document</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createDocumentHeader" datatype="html">
+        <source>
+    Create document
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createDocumentSubmitButton" datatype="html">
+        <source>Submit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createDocumentAttachmentCol" datatype="html">
+        <source>Attachment</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createDocumentRemoveAttachmentTitle" datatype="html">
+        <source>Remove item</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createDocumentSelectAttachmentFromDiskButton" datatype="html">
+        <source>Select from disk</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-sip.component.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="logoutButton" datatype="html">
+        <source>Logout</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\app.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="breadcrumbPageNotFound" datatype="html">
+        <source>Page not found</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\app-routing\page-not-found\page-not-found.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="pageNotFoundHeader" datatype="html">
+        <source>
+    Sorry, this page doesn&apos;t exist!
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\app-routing\page-not-found\page-not-found.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="applicationsHeader" datatype="html">
+        <source>
+    Applications
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\applications-list.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="breadcrumbSearchResults" datatype="html">
+        <source>Search results</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\search-results\search-results.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="searchesHeader" datatype="html">
+        <source>
+      Searches
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\searches.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="createDocumentButton" datatype="html">
+        <source>Create document</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\searches.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loadingSearches" datatype="html">
+        <source>Loading..</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\searches.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="noSearchesAvailable" datatype="html">
+        <source>No searches available</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\searches.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginUsername" datatype="html">
+        <source>Username</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\login\login.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginPassword" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\login\login.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="loginButton" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\login\login.component.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="breadcrumbIngestionResult" datatype="html">
+        <source>Ingestion result</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentCreatedHeader" datatype="html">
+        <source>
+    Document created!
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentCreatedFollowingActionsProposal" datatype="html">
+        <source>You may want to:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentCreatedBackToAppsLink" datatype="html">
+        <source>Go back to application</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentCreatedNewDocumentLink" datatype="html">
+        <source>Create another document</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="documentCreatedDownloadResultLink" datatype="html">
+        <source>Download resulting sip (not available yet)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\create-result\create-result.component.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="typeSelectTitle" datatype="html">
+        <source>Document Types</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\type-select\type-select.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dialogCancelButton" datatype="html">
+        <source>cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\type-select\type-select.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="xformLoading" datatype="html">
+        <source>Loading form..</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\search-form\search-form.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="xformSubmitButton" datatype="html">
+        <source>Submit
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\applications-list\searches\search-form\search-form.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dynamicFormRequiredField" datatype="html">
+        <source>
+    Required field.
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\dynamic-form\dynamic-form-question.component.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dynamicFormMinSymbols" datatype="html">
+        <source>
+    Length should be not less than <x id="INTERPOLATION"/> symbols.
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\dynamic-form\dynamic-form-question.component.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dynamicFormMaxSymbols" datatype="html">
+        <source>
+    Length should be not more than <x id="INTERPOLATION"/> symbols.
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app\create-sip\dynamic-form\dynamic-form-question.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

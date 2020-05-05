@@ -1,0 +1,24 @@
+<div *ngIf="schema">
+  <json-schema-form class="type-form" *ngIf="schema && layout"
+                    [options]="options"
+                    (onChanges)="onChanges($event)"
+                    (isValid)="isValid($event)"
+                    (validationErrors)="onValidationErrors($event)"
+                    [data]="data"
+                    [schema]="schema"
+                    [widgets]="widgets"
+                    [layout]="layout"
+                    [framework]="'bootstrap-3'">
+  </json-schema-form>
+
+  <BR>
+
+  <button type="button" (click)="submit()" class="btn btn-default btn-sm" [disabled]="!formIsValid"
+          [translate]="'actions.save'">Save</button>
+  <button type="button" (click)="remove()" class="btn btn-danger btn-sm" *ngIf="!isNew"
+          [translate]="'actions.remove'">Remove</button>
+
+  <BR><BR>
+</div>
+
+<div *ngIf="!schema" [translate]="'loading'">Loading...</div>
