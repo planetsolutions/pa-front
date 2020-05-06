@@ -187,7 +187,8 @@
 	},
 	"setup": {
 		"visibleColumns": "Visible Columns",
-		"pageSize": "Page Size"
+		"pageSize": "Page Size",
+		"autoRefresh": "Aurorefresh after, sec"
 	},
 	"error": {
 		"title": "Error"

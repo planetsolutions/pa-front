@@ -9,8 +9,9 @@ import {ResultMasterPanelTabColumn} from '../../index';
 export class ObjectsListSetupDialogComponent implements OnInit {
   public columns: ResultMasterPanelTabColumn[];
   public hiddenList: {};
-  public onSubmit: EventEmitter<{newHiddenList: any, pageSize: any}> = new EventEmitter<{newHiddenList: any, pageSize: any}>();
+  public onSubmit: EventEmitter<{newHiddenList: any, pageSize: any, autoRefresh: any}> = new EventEmitter<{newHiddenList: any, pageSize: any, autoRefresh: any}>();
   public pageSize = 0;
+  public autoRefresh = 0;
   public hidePages = false;
 
   constructor(public bsModalRef: BsModalRef) { }
@@ -31,7 +32,7 @@ export class ObjectsListSetupDialogComponent implements OnInit {
   }
 
   public submit(): void {
-    this.onSubmit.emit({newHiddenList: this.hiddenList, pageSize: this.pageSize});
+    this.onSubmit.emit({newHiddenList: this.hiddenList, pageSize: this.pageSize, autoRefresh: this.autoRefresh});
     this.bsModalRef.hide();
 
   }

@@ -5,6 +5,8 @@ import {ResultMasterColumnTypes, ResultMasterPanelTabColumn} from '../../service
 import {TranslateService} from '@ngx-translate/core';
 import {DateFormatPipe} from '../../pipes/date-format.pipe';
 import {DateTimeFormatPipe} from '../../pipes/date-time-format.pipe';
+import {DomSanitizer} from '@angular/platform-browser';
+import {PreviewService} from '../../sip/preview/preview.service';
 
 @Component({
   selector: 'app-objects-list-cell',
@@ -21,6 +23,10 @@ export class ObjectsListCellComponent implements OnInit {
   public value: string;
   public valueClass = '';
   public iconName;
+  public iconStyle;
+  public valueStyle;
+  public previewSupported: boolean;
+
 
   @Input() set row(value: SearchResultRow) {
     this._row = value;
@@ -35,15 +41,17 @@ export class ObjectsListCellComponent implements OnInit {
     return this._col;
   }
 
-  @Output() linkClick: EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn}> = new EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn}>();
+  @Output() linkClick: EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn,
+    preview?: boolean}> = new EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn, preview?: boolean}>();
 
-  constructor(private datePipe: DateFormatPipe, private dateTimePipe: DateTimeFormatPipe, private translate: TranslateService) { }
+  constructor(private datePipe: DateFormatPipe, private dateTimePipe: DateTimeFormatPipe,
+              private translate: TranslateService, private preview: PreviewService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
   }
 
   private initCell() {
-    if (!this._row || !this._col){ return };
+    if (!this._row || !this._col) { return };
     const colType = this._col.type ? this._col.type.toUpperCase() : undefined;
     const colDataType = this._col.dataType ? this._col.dataType.toUpperCase() : undefined;
 
@@ -61,19 +69,52 @@ export class ObjectsListCellComponent implements OnInit {
       } else if (colDataType === ResultMasterColumnTypes.CONTENT || colType === ResultMasterColumnTypes.CONTENT) {
         val = this.translate.instant('document.attachments.download');
       } else if (colDataType === ResultMasterColumnTypes.ICON) {
+
+        if (this.preview.isPreviewSupported(val)) {
+          this.previewSupported = true;
+        }
+
         if (this._col.value) {
-          this.iconName = this._col.value[val] || this._col.value['default'] || null;
+          const colConfig: any = this._col.value[val] || this._col.value['default'] || null;
+          if (colConfig != null) {
+              this.iconName = colConfig;
+          }
         }
       }
-      this.value = val;
-    } else if (colDataType === ResultMasterColumnTypes.ICON && !this._col.value) {
 
+      this.value = val;
+
+      if (this._col['style']) {
+        const colStyleConfig: any = this._col['style'];
+        if (typeof(colStyleConfig) === 'string') {
+          this.valueStyle = this.sanitizer.bypassSecurityTrustStyle(colStyleConfig);
+        } else {
+          for (const style in colStyleConfig) {
+            if (this.compileTemplate(colStyleConfig[style])) {
+              this.valueStyle = this.sanitizer.bypassSecurityTrustStyle(style);
+              break;
+            }
+          }
+        }
+      }
+    } else if (colDataType === ResultMasterColumnTypes.ICON && !this._col.value) {
       this.value = 'empty';
     }
   }
 
   public onLinkClick() {
-    this.linkClick.emit({row: this._row, col: this._col});
+     this.linkClick.emit({row: this._row, col: this._col});
+  }
+
+  public onIconClick() {
+    if (this.previewSupported) {
+        this.linkClick.emit({row: this._row, col: this._col, preview: true});
+    }
+  }
+
+  private compileTemplate(templateString) {
+      return new Function('var row = this.row; var value = this.value; return (' + templateString + ');')
+        .call({row: this._row, value: this.value});
   }
 
 

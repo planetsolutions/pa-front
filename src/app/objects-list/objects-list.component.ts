@@ -76,7 +76,7 @@ export class ObjectsListComponent {
     this.sortChange.emit({colName: this.sortedBy, asc: this.sortedAsc});
   }
 
-  onRowLinkClick(link: {row: SearchResultRow, col: ResultMasterPanelTabColumn}): void {
+  onRowLinkClick(link: {row: SearchResultRow, col: ResultMasterPanelTabColumn, preview?: boolean}): void {
     this.itemOpen.emit(link);
   }
 

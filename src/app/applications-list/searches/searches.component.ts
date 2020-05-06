@@ -5,6 +5,7 @@ import { Search, SearchComposition, Application, ResultMaster, ResultMasterColum
   ResultMasterPanelTabColumn, Platforms, CmisConstants, SearchResultRow, CmisObject, PagedList, XForm, Doc } from '../../index';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/observable/interval';
 import {Observable} from 'rxjs/Observable';
 import {ApiService} from '../../services/api/api.service';
 import {CommunicationService} from '../../services/communication.service';
@@ -12,10 +13,11 @@ import {SipService} from '../../sip/sip.service';
 import {TranslateService} from '@ngx-translate/core';
 import {SearchFormService} from './search-form/search-form.service';
 import {ObjectsListSetupService} from '../../objects-list/setup/objects-list-setup.service';
-import {ExportService, ExportTypes} from "./export/export.service";
-import {AlertsService} from "../../alerts/alerts.service";
-import {Subscription} from "rxjs/Subscription";
-import {PagingTypes} from "../../objects-list/objects-list.component";
+import {ExportService, ExportTypes} from './export/export.service';
+import {AlertsService} from '../../alerts/alerts.service';
+import {Subscription} from 'rxjs/Subscription';
+import {PagingTypes} from '../../objects-list/objects-list.component';
+import {PreviewService} from '../../sip/preview/preview.service';
 
 @Component({
   selector: 'app-searches',
@@ -60,10 +62,12 @@ export class SearchesComponent implements OnInit, OnDestroy {
   private currentSearchFormData: any;
   private rootFolderColumns: ResultMasterPanelTabColumn[];
   private sortOptions: SortOptions;
+  private defaultSortOptions: SortOptions;
   private selectedRowsIds: string[];
   private onColChangeSubs: Subscription;
   private pagingType: string;
   private isLastPage = false;
+  private autoRefreshTask: Subscription = null;
 
   breadCrumbs: { name: string, id: string, func?: any }[] = [];
 
@@ -79,7 +83,8 @@ export class SearchesComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService, private exportService: ExportService, private alertService: AlertsService,
               private route: ActivatedRoute, private listSetupService: ObjectsListSetupService,
               private sipService: SipService, private searchFormService: SearchFormService,
-              private communicationService: CommunicationService, private translate: TranslateService) {
+              private communicationService: CommunicationService, private translate: TranslateService,
+              private previewService: PreviewService) {
   }
 
   ngOnInit() {
@@ -128,7 +133,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
 
 
   selectSearch(search: Search, noContent = false) {
-    if (this.selectedSearch && this.selectedSearch.uuid === search.uuid) return;
+    if (this.selectedSearch && this.selectedSearch.uuid === search.uuid) { return; }
 
     this.ftQuery = '';
     this.selectedFolder = null;
@@ -212,6 +217,10 @@ export class SearchesComponent implements OnInit, OnDestroy {
 
   public onRootFolderLoaded(rootDoc: Doc) {
     this.rootId = rootDoc.id;
+    if (rootDoc.data && rootDoc.data.defaultSorting && rootDoc.data.defaultSorting.colName) {
+      this.defaultSortOptions = rootDoc.data.defaultSorting;
+
+    }
     if (rootDoc.data && rootDoc.data.fields) {
       this.rootFolderColumns = rootDoc.data.fields;
       this.initColumnsLinks(this.rootFolderColumns);
@@ -474,8 +483,11 @@ export class SearchesComponent implements OnInit, OnDestroy {
   }
 
   private loadFolderContents(): void {
-    this.apiService.getCmisData(this.selectedFolder.id, '', this.pageSize, this.pageNum,
-      this.sortOptions && this.sortOptions.colName ? this.sortOptions : null)
+    let sortOptions = (this.sortOptions && this.sortOptions.colName ? this.sortOptions : null);
+    if (!sortOptions && this.defaultSortOptions && this.defaultSortOptions.colName) {
+      sortOptions = this.defaultSortOptions;
+    }
+    this.apiService.getCmisData(this.selectedFolder.id, '', this.pageSize, this.pageNum, sortOptions)
       .subscribe((page: PagedList<CmisObject>) => {
       this.isLoading = false;
       this.folderData = page.data;
@@ -491,8 +503,13 @@ export class SearchesComponent implements OnInit, OnDestroy {
     this.onItemsPageChange(this.pageNum)
   }
 
-  public onItemOpen(link: {row: SearchResultRow, col: ResultMasterPanelTabColumn}) {
+  public onItemOpen(link: {row: SearchResultRow, col: ResultMasterPanelTabColumn, preview?: boolean}) {
     if (this.application.platform !== Platforms.IA) {
+
+      if (link.preview) {
+        this.previewService.launch(link.row.id, this.application);
+        return;
+      }
 
       if (this.folderData && this.folderData.length) {
         for (let i = 0; i < this.folderData.length; i++) {
@@ -516,16 +533,17 @@ export class SearchesComponent implements OnInit, OnDestroy {
             return;
           }
         }
-      }
+      };
 
       this.sipService.open(link.row.id, this.application,
         link.row.columns.has('type') ? link.row.columns.get('type').value : null
-        )
-        .subscribe((result) => {
-          if (result) {
-            this.refresh()
-          }
-        });
+      )
+      .subscribe((result) => {
+        if (result) {
+          this.refresh()
+        }
+      });
+
     } else {
       this.apiService.downloadContent(this.application.uuid, link.row.get(link.col.name).value);
     }
@@ -542,8 +560,12 @@ export class SearchesComponent implements OnInit, OnDestroy {
     this.selectedRowsIds = [];
     this.pageNum = pageNum;
     this.pageSize = this.getPageSize();
+
+    if (!!this.autoRefreshTask) { this.autoRefreshTask.unsubscribe(); }
+
     if (this.selectedFolder) {
       this.loadFolderContents();
+      this.initAutoRefresh();
     } else if (this.selectedSearch) {
       this.loadSearchContents();
     } else if (this.ftQuery !== '') {
@@ -639,6 +661,17 @@ export class SearchesComponent implements OnInit, OnDestroy {
       this.breadCrumbs.push(crumb);
     } else {
       this.breadCrumbs = [crumb];
+    }
+  }
+
+  private initAutoRefresh() {
+    if (this.pageNum === 1 && this.setupDisp.autoRefresh > 0) {
+      this.autoRefreshTask = Observable.interval(this.setupDisp.autoRefresh * 1000)
+        .subscribe(
+          () => {
+            this.loadFolderContents();
+          },
+          error => {console.log(error)});
     }
   }
 

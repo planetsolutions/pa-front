@@ -27,7 +27,7 @@
     currentPage: page,
     totalItems: total})">
     <td *ngIf="checkboxes"><input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)"></td>
-    <td *ngFor="let col of columns">
+    <td *ngFor="let col of columns" style="{{(col.type === 'ICON' ? 'text-align:center' : '')}}">
       <app-objects-list-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)"></app-objects-list-cell>
     </td>
   </tr>

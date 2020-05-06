@@ -8,5 +8,6 @@ export const environment = {
   IAEndpoint: '',
   useHashLocationStrategy: true,
   itemsOnPage: 30,
+  autoRefresh: 10,
   rootId: '00000000-0000-0000-0000-000000000000'
 };
