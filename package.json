@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "i18n": "ng xi18n",
-    "devStart": "ng serve --sourcemap=false --live-reload false"
+    "devStart": "ng serve --sourcemap=false --live-reload false",
+    "buildProd": "ng build --output-hashing=bundles --prod --aot=false --build-optimizer=false"
   },
   "private": true,
   "browser": "src/app/services/util/xmlbuilder.d.ts",

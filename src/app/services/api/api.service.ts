@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders, HttpResponse, HttpParams} from '@angular/common/http';
-import {LoginParameters, LoginResponse, Token, Application, Flag, EmbeddedPage, Search, Doc, PagedList, XForm,
-  SearchResultRow, ResultMaster, SearchComposition, UserLocalInfo, IngestionResponse, CmisObject,
-  DocType, AccessGroup, SystemDoc, UserInfo, Tenant} from '../../index';
+import {LoginParameters, LoginResponse, Token, Application, Flag, Search, Doc, PagedList, XForm,
+  SearchResultRow, ResultMaster, SearchComposition, IngestionResponse, CmisObject,
+  DocType, AccessGroup, SystemDoc, UserInfo, Tenant, ContentData, ListElement, CmisConstants, SortOptions} from '../../index';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {TranslateService} from '@ngx-translate/core';
-import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import {BsLocaleService} from 'ngx-bootstrap/datepicker';
+import {AuthService} from './auth.service';
 
 import * as FileSaver from 'file-saver';
 
@@ -24,10 +25,6 @@ import 'rxjs/add/observable/defer';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/concat';
 import {environment} from '../../../environments/environment';
-import {CmisConstants} from './model/cmis-constants';
-import {AuthService} from './auth.service';
-import {SortOptions} from "./model/result-master";
-import {ListElement} from "./model/list-element";
 
 
 @Injectable()
@@ -678,6 +675,34 @@ export class ApiService {
         const blob = new Blob([value.body], {type: contentType});
         FileSaver.saveAs(blob, fileName);
 
+      });
+  }
+
+  public getDocumentContent(docId: string, type?: string): Observable<ContentData> {
+    const url = `${this.IAEndpoint}/boot/api/docs/getcontent/${docId}` + (type ? '?type=' + type : '');
+    // const url = `${this.IAEndpoint}/boot/browser/test/root?objectId=${docId}&cmisselector=content`;
+
+    return this.httpClient.request('get', url,
+      {responseType: 'blob',  observe: 'response' })
+      .map((value: HttpResponse<Blob>) => {
+        const contentType = value.headers.get('Content-Type') || 'application/octet-stream';
+
+        const contentDisposition = value.headers.get('Content-Disposition');
+
+        let fileName = (contentDisposition ? contentDisposition
+          .substr(contentDisposition.indexOf('filename') + 'filename='.length)
+          .replace(/"/g, '') : 'attachment');
+
+        fileName = decodeURIComponent(fileName);
+        if (fileName.startsWith('=UTF-8\'\'')) {
+          fileName = fileName.substr(8);
+        }
+
+        const blob = new Blob([value.body], {type: contentType});
+        const result = new ContentData(fileName);
+        result.blob = blob;
+        result.mimeType = contentType;
+        return result;
       });
   }
 

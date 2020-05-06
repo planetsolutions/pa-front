@@ -53,6 +53,7 @@ import {AttachmentsComponent} from './sip/attachments/attachments.component';
 import {DynamicFormQuestionComponent } from './sip/sip-form/ia-impl/dynamic-form/dynamic-form-question.component';
 import {AppDynComponentDirective } from './sip/sip-form/dynamic-component-host.directive';
 import {SipService} from './sip/sip.service';
+import {PreviewService} from './sip/preview/preview.service';
 import {SipFormI} from './sip/sip-form/sip-form-i';
 
 import { TypesManageComponent } from './type/types-manage/types-manage.component';
@@ -92,6 +93,7 @@ import {arLocale, defineLocale, frLocale, ruLocale} from 'ngx-bootstrap';
 import {ExportDialogComponent} from './applications-list/searches/export/export-dialog.component';
 import {ExportService} from './applications-list/searches/export/export.service';
 import {FacetsComponent} from './applications-list/searches/facets/facets.component';
+import {PreviewDialogComponent} from './sip/preview/preview-dialog.component';
 
 defineLocale('ru', ruLocale);
 defineLocale('fr', frLocale);
@@ -142,7 +144,8 @@ defineLocale('ar', arLocale);
     FormsManageComponent,
     SipFormPgTabComponent,
     ExportDialogComponent,
-    FacetsComponent
+    FacetsComponent,
+    PreviewDialogComponent
   ],
   imports: [
     SharedModule,
@@ -185,7 +188,7 @@ defineLocale('ar', arLocale);
     TypeaheadModule.forRoot(),
     InfiniteScrollModule
   ],
-  providers: [AuthGuard, ApiService, SipService, XsdParserService, XformParserService, AuthService, SystemService, UserService, GroupService,
+  providers: [AuthGuard, ApiService, SipService, PreviewService, XsdParserService, XformParserService, AuthService, SystemService, UserService, GroupService,
               QuestionControlService, CommunicationService, TypeSelectService, FolderService, SearchFormService,
               ResizeService, ObjectsListSetupService, AlertsService, ExportService,
     {
@@ -198,6 +201,7 @@ defineLocale('ar', arLocale);
   bootstrap: [AppComponent],
   entryComponents: [TypeSelectComponent, TypeSelectWidgetComponent, DatePickerWidgetComponent, SipFormComponent, UserEditComponent, GroupEditComponent,
     SipFormPgComponent, SipFormIaComponent, SipFormDataComponent, TypesTreeComponent, FolderEditDialogComponent, FolderEditComponent, SearchFormComponent,
-    ObjectsListSetupDialogComponent, AlertDialogComponent, PermissionsWidgetComponent, AuditWidgetComponent, TypeaheadWidgetComponent, ExportDialogComponent]
+    ObjectsListSetupDialogComponent, AlertDialogComponent, PermissionsWidgetComponent, AuditWidgetComponent, TypeaheadWidgetComponent, ExportDialogComponent,
+    PreviewDialogComponent]
 })
 export class AppModule { }

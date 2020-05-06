@@ -12,6 +12,8 @@ import {TypeSelectWidgetComponent} from '../../../form-widgets/type-select-widge
 import {CmisConstants} from '../../../services/api/model/cmis-constants';
 import {TypeaheadWidgetComponent} from '../../../form-widgets/typeahead-widget.component';
 import {AlertsService} from "../../../alerts/alerts.service";
+import {PreviewService} from "../../preview/preview.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-sip-form-pg',
@@ -53,9 +55,8 @@ export class SipFormPgComponent implements SipFormI {
   public tabsByName: Array<Doc> = [];
   public activeTabName: string;
 
-
-  constructor(private apiService: ApiService, private translate: TranslateService,
-              private dateTimePipe: DateTimeFormatPipe, private alertService: AlertsService) {
+  constructor(private apiService: ApiService, private translate: TranslateService, private preview: PreviewService,
+              private sanitizer: DomSanitizer, private dateTimePipe: DateTimeFormatPipe, private alertService: AlertsService) {
     this.widgets = {
       'type-select': TypeSelectWidgetComponent,
       'date-picker': DatePickerWidgetComponent,
@@ -78,6 +79,7 @@ export class SipFormPgComponent implements SipFormI {
           this.loadRenditions();
 
         }
+
         obs.subscribe((doc: Doc) => {
             this.doc = doc;
             this.docData = doc.data || {};
@@ -311,6 +313,23 @@ export class SipFormPgComponent implements SipFormI {
     if (data) {
       // console.log(data);
     }
+  }
+
+  onFileIconClick(fileName: string, id: string) {
+    if (fileName && fileName !== '' && id && id !== '') {
+      if (this.preview.isPreviewSupported(fileName)) {
+          this.preview.launch(id, this.application);
+      }
+    }
+  }
+
+  getFileIconStyle(fileName: string) {
+    if (fileName && fileName !== '') {
+      if (this.preview.isPreviewSupported(fileName)) {
+        return this.sanitizer.bypassSecurityTrustStyle('cursor: pointer');
+      }
+    }
+    return '';
   }
 
   onFormChanges(data: any) {

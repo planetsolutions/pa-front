@@ -94,7 +94,8 @@ body, .dropdown-menu{
   padding: 8.5px 15px;
 }
 
-.sortable{
+.sortable,
+.clickable {
   cursor: pointer;
 }
 .sortable .sort-icon {
@@ -142,7 +143,7 @@ body, .dropdown-menu{
 }
 
 .mdi-24px {
-  line-height: 16px
+  line-height: 20px
 }
 
 .width200 {

@@ -26,6 +26,7 @@ export * from './services/api/model/access-group';
 export * from './services/api/model/system-doc';
 export * from './services/api/model/json-form-constants';
 export * from './services/api/model/list-element';
+export * from './services/api/model/content-data';
 
 export * from './services/util/flag';
 export * from './services/util/model/element';
