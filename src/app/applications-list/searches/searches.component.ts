@@ -18,6 +18,7 @@ import {AlertsService} from '../../alerts/alerts.service';
 import {Subscription} from 'rxjs/Subscription';
 import {PagingTypes} from '../../objects-list/objects-list.component';
 import {PreviewService} from '../../sip/preview/preview.service';
+import {SearchResultRowColumn} from "../../services/api/model/search-result-row";
 
 @Component({
   selector: 'app-searches',
@@ -444,6 +445,24 @@ export class SearchesComponent implements OnInit, OnDestroy {
     });
   }
 
+  public createFolder(): void {
+    this.sipService.create(this.selectedFolder ? this.selectedFolder.id : null, this.application, null, 'folder')
+      .subscribe((id: string) => {
+      if (id) {
+        this.refresh();
+      }
+    });
+  }
+
+  public editFolder(): void {
+    this.sipService.open(this.selectedFolder.id, this.application, this.selectedFolder.type, null, true )
+      .subscribe((result) => {
+        if (result) {
+          this.refresh()
+        }
+      });
+  }
+
   private mapCmisObjectToResultSet(obj: CmisObject): SearchResultRow {
       const row: any = {id: obj.id};
       row.columns = [];
@@ -454,13 +473,16 @@ export class SearchesComponent implements OnInit, OnDestroy {
         } else if (obj.data && obj.data[col.name]) {
           row.columns.push({name: col.name, value: obj.data[col.name]});
         } else if (col.name === 'fileMimeType' || col.name === 'cmis:contentStreamFileName') {
-          if (obj.type === 'folder') {
-            row.columns.push({name: col.name, value: obj.type});
+          if (obj.type === 'folder' || obj.baseType === 'cmis:folder') {
+            row.columns.push({name: col.name, value: 'folder'});
           }
         }
       });
-
-      return new SearchResultRow(row);
+      const result = new SearchResultRow(row);
+      if (!result.columns.has('type')) {
+        result.columns.set('type', new SearchResultRowColumn({name: 'type', value: obj.type, rows: null}));
+      }
+      return result;
   }
 
   private mapDocToCmisObj(doc: Doc): CmisObject {
@@ -547,6 +569,25 @@ export class SearchesComponent implements OnInit, OnDestroy {
     } else {
       this.apiService.downloadContent(this.application.uuid, link.row.get(link.col.name).value);
     }
+  }
+
+  public onItemColumnEdit(eventData: {row: SearchResultRow, col: ResultMasterPanelTabColumn, newValue: string}) {
+    const id = eventData.row.id;
+    const type = eventData.row.columns.get('type').value;
+    const that = this;
+
+    this.apiService.getDocument(id, type).subscribe((doc: Doc) => {
+      if (doc.hasOwnProperty(eventData.col.name)) {
+        doc[eventData.col.name] = eventData.newValue
+      } else {
+        doc.data[eventData.col.name] = eventData.newValue
+      }
+      that.apiService.saveDocumentData(doc, that.selectedFolder ? that.selectedFolder.id : null).subscribe((result) => {
+        if (result) {
+          that.refresh()
+        }
+      })
+    });
   }
 
   public onSort(options: SortOptions) {

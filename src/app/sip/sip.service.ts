@@ -25,16 +25,16 @@ export class SipService {
 
    }
 
-   public create(parentFolder: string, application: Application, implName?: string): Observable<string> {
+   public create(parentFolder: string, application: Application, implName?: string, rootType = 'document'): Observable<string> {
       if (!application || application.platform === Platforms.PG) {
 
           return this.typeSelectService.select({
             applicationId: application ? application.uuid : null,
-            rootType: 'document',
+            rootType: rootType,
             disableAbstract: true})
             .flatMap((type: DocType) => {
               if (type) {
-                return this.openDialog(null, type.symbolicName, application, parentFolder, true, implName);
+                return this.openDialog(null, type.symbolicName, application, parentFolder, true, implName, type.title, rootType);
               } else {
                 return Observable.of(null);
               }
@@ -45,7 +45,7 @@ export class SipService {
       }
    }
 
-   private openDialog(docId: string, typeId: string, application: Application, parentFolder: string, mode?: boolean, implName?: string): Observable<string> {
+   private openDialog(docId: string, typeId: string, application: Application, parentFolder: string, mode?: boolean, implName?: string, title = 'document.document', rootType?: string): Observable<string> {
      const bsModalRef = this.modalService.show(SipFormComponent, {
        animated: false, keyboard: true, backdrop: true, ignoreBackdropClick: true, class: 'modal-md'
      });
@@ -57,13 +57,10 @@ export class SipService {
      formComponent.parentFolder = parentFolder;
      formComponent.mode = !!mode;
      formComponent.application = application;
+     formComponent.baseType = rootType;
      formComponent.afterParamsSet();
 
-     if (!docId) {
-       (<SipFormComponent>bsModalRef.content).setTitle(this.translate.instant('document.newTitle'));
-     } else {
-       (<SipFormComponent>bsModalRef.content).setTitle(this.translate.instant('document.document'));
-     }
+     (<SipFormComponent>bsModalRef.content).setTitle(this.translate.instant(title));
 
      return formComponent.onSubmit.asObservable();
    }

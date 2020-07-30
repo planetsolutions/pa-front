@@ -24,6 +24,7 @@ export class SipFormPgComponent implements SipFormI {
   public application: Application;
   public parentFolderId: string;
   public docTypeId: string;
+  public baseType: string;
   public docId: string;
   public formSchema: any;
   public widgets: any;
@@ -392,6 +393,7 @@ export class SipFormPgComponent implements SipFormI {
       doc.type = this.docType.symbolicName;
       doc.title = this.liveFormData.title ? this.liveFormData.title + '' : date.toString();
       doc.description = this.liveFormData.description ? this.liveFormData.description : '';
+      doc.baseType = this.baseType;
 
       delete this.liveFormData.title;
       delete this.liveFormData.description;

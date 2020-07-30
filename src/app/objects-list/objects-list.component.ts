@@ -46,6 +46,7 @@ export class ObjectsListComponent {
   @Output() itemOpen: EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn}> = new EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn}>();
   @Output() sortChange: EventEmitter<SortOptions> = new EventEmitter<SortOptions>();
   @Output() selectionChange: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() itemEdit: EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn, newValue: string}> = new EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn, newValue: string}>();
 
   _rows: Observable<any[]>;
   _columns: ResultMasterPanelTabColumn[];
@@ -78,6 +79,10 @@ export class ObjectsListComponent {
 
   onRowLinkClick(link: {row: SearchResultRow, col: ResultMasterPanelTabColumn, preview?: boolean}): void {
     this.itemOpen.emit(link);
+  }
+
+  onColumnEdit(link: {row: SearchResultRow, col: ResultMasterPanelTabColumn, newValue: string}): void {
+    this.itemEdit.emit(link);
   }
 
 

@@ -13,7 +13,7 @@
       </json-schema-form>
       <div style="line-height: 30px; margin-bottom: 10px" *ngIf="!!formError">{{formError}}</div>
     </tab>
-    <tab [heading]="'document.attachment' | translate" id="tab2" style="padding:10px; min-height: 200px">
+    <tab [heading]="'document.attachment' | translate" id="tab2" style="padding:10px; min-height: 200px" *ngIf="doc && doc.type && doc.type.indexOf('_folder')==-1">
         <div *ngIf="!canEditFile && doc && !!doc.fileName">
           <table class="table">
             <tbody>

@@ -56,13 +56,24 @@
       </ol>
 
     </td>
-    <td align="right" [ngStyle]="{'width': (selectedFolder ? '165px' : (selectedSearch ? '125px' : '85px'))}">
+    <td align="right" [ngStyle]="{'width': (selectedFolder ? '210px' : (selectedSearch ? '125px' : '85px'))}">
         <button type="button" (click)="refresh()" *ngIf="selectedFolder" class="btn btn-default btn-sm"
                 [attr.title]="'actions.refresh' | translate"><i class="glyphicon glyphicon-refresh"></i></button>
         <button type="button" (click)="openSearch()" *ngIf="selectedSearch" class="btn btn-default btn-sm"
                 [attr.title]="'actions.find' | translate"><i class="glyphicon glyphicon-search"></i></button>
-        <button type="button" (click)="createDoc()" class="btn btn-default btn-sm" *ngIf="selectedFolder"
-                [attr.title]="'document.create' | translate"><i class="glyphicon glyphicon-plus"></i></button>
+        <button type="button" (click)="editFolder()" class="btn btn-default btn-sm" *ngIf="selectedFolder"
+              [attr.title]="'folder.edit' | translate"><i class="glyphicon glyphicon-pencil"></i></button>
+
+        <div class="btn-group btn-group-sm" dropdown *ngIf="selectedFolder">
+          <button dropdownToggle type="button" class="btn btn-default dropdown-toggle" [attr.title]="'actions.add' | translate">
+            <i class="glyphicon glyphicon-plus"></i> <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu" style="left:-120px !important">
+            <li role="menuitem"><a class="dropdown-item" href="javascript://" (click)="createDoc()" [translate]="'document.create'"></a></li>
+            <li role="menuitem"><a class="dropdown-item" href="javascript://" (click)="createFolder()" [translate]="'folder.create'"></a></li>
+          </ul>
+        </div>
+
         <button type="button" (click)="setupColumns()" class="btn btn-default btn-sm"
                 [attr.title]="'search.columnsSetup' | translate"><i class="glyphicon glyphicon-cog"></i></button>
         <div class="btn-group btn-group-sm" dropdown>
@@ -81,7 +92,7 @@
         <app-objects-list *ngIf="setupDisp?.columns" [columns]="setupDisp.columns" [rows]="dataRows" [pageSize]="pageSize" [checkboxes]="true"
         [customizable]="true" [total]="dataTotalCount" [application]="application" [page]="pageNum" [loading]="isLoading" [pagingType]="pagingType"
                           [showMore]="!isLastPage"
-        (sortChange)="onSort($event)" (itemOpen)="onItemOpen($event)" (pageChange)="onItemsPageChange($event)"
+        (sortChange)="onSort($event)" (itemOpen)="onItemOpen($event)" (itemEdit)="onItemColumnEdit($event)" (pageChange)="onItemsPageChange($event)"
                           (selectionChange)="onRowsSelected($event)"
         ></app-objects-list>
       </div>
