@@ -93,7 +93,8 @@
 		"versions": {
 			"tab": "Версии",
 			"last": "Последняя версия"
-		}
+		},
+		"symbolicName": "Системное название"
 	},
 	"type": {
 		"selectTitle": "Типы",
