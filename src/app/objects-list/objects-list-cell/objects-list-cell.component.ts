@@ -7,6 +7,7 @@ import {DateFormatPipe} from '../../pipes/date-format.pipe';
 import {DateTimeFormatPipe} from '../../pipes/date-time-format.pipe';
 import {DomSanitizer} from '@angular/platform-browser';
 import {PreviewService} from '../../sip/preview/preview.service';
+import {CommunicationService} from '../../services/communication.service';
 
 @Component({
   selector: 'app-objects-list-cell',
@@ -28,6 +29,8 @@ export class ObjectsListCellComponent implements OnInit {
   public previewSupported: boolean;
   public changable: boolean;
 
+  private roles: string[] = [];
+  private groups: string[] = [];
   private emptyString = 'empty';
 
 
@@ -50,10 +53,16 @@ export class ObjectsListCellComponent implements OnInit {
   @Output() valueChange: EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn,
     newValue: string}> = new EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn, newValue: string}>();
 
-  constructor(private datePipe: DateFormatPipe, private dateTimePipe: DateTimeFormatPipe,
+  constructor(private datePipe: DateFormatPipe, private dateTimePipe: DateTimeFormatPipe, private commService: CommunicationService,
               private translate: TranslateService, private preview: PreviewService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    this.commService.get('roles').subscribe((val) => {
+      this.roles = val;
+    });
+    this.commService.get('groups').subscribe((val) => {
+      this.groups = val;
+    });
   }
 
   private initCell() {
@@ -158,8 +167,8 @@ export class ObjectsListCellComponent implements OnInit {
   }
 
   private compileTemplate(templateString) {
-      return new Function('var row = this.row; var value = this.value; return (' + templateString + ');')
-        .call({row: this._row, value: this._row.get(this._col.name).value});
+      return new Function('var row = this.row; var value = this.value; var roles = this.roles; var groups = this.groups; return (' + templateString + ');')
+        .call({row: this._row, value: this._row.get(this._col.name).value, roles: this.roles, groups: this.groups });
   }
 
 

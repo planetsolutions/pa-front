@@ -52,12 +52,12 @@ export class SipService {
      const formComponent: SipFormComponent = (<SipFormComponent>bsModalRef.content);
 
      formComponent.docId = docId;
-     formComponent.typeId = typeId;
+     formComponent.typeId = (typeId === 'cmis:folder' ? 'folder' : typeId);
      formComponent.implName = implName;
      formComponent.parentFolder = parentFolder;
      formComponent.mode = !!mode;
      formComponent.application = application;
-     formComponent.baseType = rootType;
+     formComponent.baseType = (rootType === 'cmis:folder' ? 'folder' : rootType);
      formComponent.afterParamsSet();
 
      (<SipFormComponent>bsModalRef.content).setTitle(this.translate.instant(title));

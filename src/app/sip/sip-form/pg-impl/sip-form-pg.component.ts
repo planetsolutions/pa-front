@@ -39,6 +39,7 @@ export class SipFormPgComponent implements SipFormI {
   public onAclSet: EventEmitter<{edit: boolean, remove: boolean, full: boolean}> = new EventEmitter();
   public maxHeight = 0;
   public canEditFile = false;
+  public isFolder = false;
 
   public formIsValid: boolean = null;
   public jsonFormOptions: any = {
@@ -85,6 +86,8 @@ export class SipFormPgComponent implements SipFormI {
             this.doc = doc;
             this.docData = doc.data || {};
             this.onTitleChange.emit(doc.title);
+
+            this.isFolder = doc.type && (doc.type.indexOf('folder') > -1 || doc.type === 'treeroot');
 
             this.onAclSet.emit({
               edit: this.isSystem || (doc.acl.indexOf('edit_prop') > -1 || doc.acl.indexOf('full') > -1),
