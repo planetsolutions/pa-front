@@ -6,6 +6,7 @@ export interface SipFormI {
   application: Application;
   parentFolderId?: string;
   docTypeId?: string;
+  baseType?: string;
   docId: string;
   mode: boolean;
   isSystem?: boolean;

@@ -25,6 +25,7 @@ export class SipFormComponent implements OnInit {
   @Input()  public implName: string;
   @Input()  public mode: boolean;
   @Input()  public isSystem: boolean;
+  @Input()  public baseType: string;
 
   onSubmit: EventEmitter<string> = new EventEmitter<string>();
   formTitle: string;
@@ -77,6 +78,7 @@ export class SipFormComponent implements OnInit {
     this.subForm.docId = this.docId;
     this.subForm.mode = this.mode;
     this.subForm.isSystem = this.isSystem;
+    this.subForm.baseType = this.baseType;
     this.subForm.onAfterCreated();
 
     this.subForm.onTitleChange.subscribe((title: string) => this.setTitle(title));

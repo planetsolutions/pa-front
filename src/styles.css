@@ -176,3 +176,7 @@ json-schema-form select-widget select option[value=null]{
   width:95%;
   top: unset
 }
+
+.color-grey {
+  color: #999;
+}

@@ -1,4 +1,4 @@
-<a *ngIf="isLink" href="javascript:;" (click)="onLinkClick()" class="{{valueClass}}" [style]="valueStyle"> {{ value }} </a>
+<a *ngIf="isLink" href="javascript://;" (click)="onLinkClick()" class="{{valueClass}}" [style]="valueStyle"> {{ value }} </a>
 
 <span *ngIf="isIcon && value && !column.value" [innerHTML]="value | mimeIcon" [title]="value"
       (click)="onIconClick()" class="{{(previewSupported ? 'clickable' : '')}}" [style]="valueStyle"></span>

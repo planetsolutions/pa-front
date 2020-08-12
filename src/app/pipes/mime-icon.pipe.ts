@@ -46,8 +46,8 @@ export class MimeIconPipe implements PipeTransform {
     } else {
       if (filename === 'empty') {
         return '<span class="mdi  mdi-file-hidden mdi-24px"></span>';
-      } else if (filename === 'folder') {
-        return '<span class="mdi  mdi-folder mdi-24px"></span>';
+      } else if (filename === 'folder' || 'cmis:folder') {
+        return '<span class="mdi  mdi-folder mdi-24px color-grey"></span>';
       } else {
         return '<span class="mdi  mdi-file-question mdi-24px"></span>';
       }

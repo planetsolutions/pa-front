@@ -7,6 +7,7 @@ import {DateFormatPipe} from '../../pipes/date-format.pipe';
 import {DateTimeFormatPipe} from '../../pipes/date-time-format.pipe';
 import {DomSanitizer} from '@angular/platform-browser';
 import {PreviewService} from '../../sip/preview/preview.service';
+import {CommunicationService} from '../../services/communication.service';
 
 @Component({
   selector: 'app-objects-list-cell',
@@ -17,15 +18,20 @@ export class ObjectsListCellComponent implements OnInit {
 
   private _row: SearchResultRow;
   private _col: ResultMasterPanelTabColumn;
+  private _nextValue = '';
 
   public isLink: boolean;
   public isIcon: boolean;
   public value: string;
   public valueClass = '';
   public iconName;
-  public iconStyle;
   public valueStyle;
   public previewSupported: boolean;
+  public changable: boolean;
+
+  private roles: string[] = [];
+  private groups: string[] = [];
+  private emptyString = 'empty';
 
 
   @Input() set row(value: SearchResultRow) {
@@ -44,10 +50,19 @@ export class ObjectsListCellComponent implements OnInit {
   @Output() linkClick: EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn,
     preview?: boolean}> = new EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn, preview?: boolean}>();
 
-  constructor(private datePipe: DateFormatPipe, private dateTimePipe: DateTimeFormatPipe,
+  @Output() valueChange: EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn,
+    newValue: string}> = new EventEmitter<{row: SearchResultRow, col: ResultMasterPanelTabColumn, newValue: string}>();
+
+  constructor(private datePipe: DateFormatPipe, private dateTimePipe: DateTimeFormatPipe, private commService: CommunicationService,
               private translate: TranslateService, private preview: PreviewService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    this.commService.get('roles').subscribe((val) => {
+      this.roles = val;
+    });
+    this.commService.get('groups').subscribe((val) => {
+      this.groups = val;
+    });
   }
 
   private initCell() {
@@ -84,26 +99,65 @@ export class ObjectsListCellComponent implements OnInit {
 
       this.value = val;
 
-      if (this._col['style']) {
-        const colStyleConfig: any = this._col['style'];
-        if (typeof(colStyleConfig) === 'string') {
-          this.valueStyle = this.sanitizer.bypassSecurityTrustStyle(colStyleConfig);
-        } else {
-          for (const style in colStyleConfig) {
-            if (this.compileTemplate(colStyleConfig[style])) {
-              this.valueStyle = this.sanitizer.bypassSecurityTrustStyle(style);
-              break;
-            }
+
+    } else if (colDataType === ResultMasterColumnTypes.ICON && !this._col.value) {
+      this.value = this.emptyString;
+    }
+
+    if (this._col['style']) {
+      const colStyleConfig: any = this._col['style'];
+      if (typeof(colStyleConfig) === 'string') {
+        this.valueStyle = this.sanitizer.bypassSecurityTrustStyle(colStyleConfig);
+      } else {
+        for (const style in colStyleConfig) {
+          if (this.compileTemplate(colStyleConfig[style])) {
+            this.valueStyle = this.sanitizer.bypassSecurityTrustStyle(style);
+            break;
           }
         }
       }
-    } else if (colDataType === ResultMasterColumnTypes.ICON && !this._col.value) {
-      this.value = 'empty';
+    }
+
+    if (this._col['styleClass']) {
+      const colStyleConfig: any = this._col['styleClass'];
+      if (typeof(colStyleConfig) === 'string') {
+        this.valueClass = colStyleConfig;
+      } else {
+        for (const style in colStyleConfig) {
+          if (this.compileTemplate(colStyleConfig[style])) {
+            this.valueClass = style;
+            break;
+          }
+        }
+      }
+    }
+
+    if (this._col['changable']) {
+      const colChangeConfig: any = this._col['changable'];
+
+      for (const testValue in colChangeConfig) {
+
+        if (val === testValue || ((!val || val === '') && testValue === this.emptyString)) {
+          if (typeof(colChangeConfig[testValue]) === 'string') {
+            this.value = colChangeConfig[testValue];
+            this._nextValue = colChangeConfig[testValue];
+          } else {
+            this.value = colChangeConfig[testValue].label;
+            this._nextValue = colChangeConfig[testValue].value;
+          }
+          this.isLink = true;
+          break;
+        }
+      }
     }
   }
 
   public onLinkClick() {
-     this.linkClick.emit({row: this._row, col: this._col});
+    if (this._col['changable']) {
+      this.valueChange.emit({row: this._row, col: this._col, newValue: this._nextValue});
+    } else {
+      this.linkClick.emit({row: this._row, col: this._col});
+    }
   }
 
   public onIconClick() {
@@ -113,8 +167,8 @@ export class ObjectsListCellComponent implements OnInit {
   }
 
   private compileTemplate(templateString) {
-      return new Function('var row = this.row; var value = this.value; return (' + templateString + ');')
-        .call({row: this._row, value: this.value});
+      return new Function('var row = this.row; var value = this.value; var roles = this.roles; var groups = this.groups; return (' + templateString + ');')
+        .call({row: this._row, value: this._row.get(this._col.name).value, roles: this.roles, groups: this.groups });
   }
 
 

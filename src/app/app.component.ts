@@ -37,6 +37,7 @@ export class AppComponent {
 
               this.roles = userInfo.roles;
               this.commService.set('roles', userInfo.roles);
+              this.commService.set('groups', userInfo.groups);
             }
 
             this.translate.get('title').subscribe((val: string) => {
