@@ -6,6 +6,7 @@ import {LoginParameters, LoginResponse, Token, Application, Flag, Search, Doc, P
   DocType, AccessGroup, SystemDoc, UserInfo, Tenant, ContentData, ListElement, CmisConstants, SortOptions} from '../../index';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {Subject} from 'rxjs/Subject';
 import {TranslateService} from '@ngx-translate/core';
 import {BsLocaleService} from 'ngx-bootstrap/datepicker';
 import {AuthService} from './auth.service';
@@ -757,9 +758,12 @@ export class ApiService {
 
   }
 
-  public getSystemDocs(typeName: string): Observable<SystemDoc[]> {
+  public getSystemDocs(typeName: string, getFields?: boolean): Observable<SystemDoc[]> {
 
-    const url = `${this.IAEndpoint}/boot/api/system/type/${typeName}`;
+    let url = `${this.IAEndpoint}/boot/api/system/type/${typeName}`;
+    if (getFields) {
+      url += '?fields=all'
+    }
     return this.httpClient.get(url)
       .map((res: any) => res.content)
       .map((objs: Array<any>) =>  objs.map((obj) => new SystemDoc(obj)));
@@ -908,28 +912,35 @@ export class ApiService {
     })
   }
 
-  public exportData(compositionId: string, outPutFormat: string, data: {query?: string, sortOptions?: SortOptions, selectedIds?: string[]}): void {
+  public exportData(exportConfig: string, exportConfigType: string, data: {compositionId?: string, query?: string, sortOptions?: SortOptions, selectedIds?: string[]}): Observable<any> {
     let url;
-    let headers = new HttpHeaders().set('Content-Type', 'application/xml');
+    const headers = new HttpHeaders().set('Content-Type', 'application/xml');
     let request: Observable<object>;
+    const blobResult = exportConfigType.startsWith('client_');
+    const postOptions = {headers: headers};
+    if (blobResult) {
+      postOptions['responseType'] = 'blob';
+      postOptions['observe'] = 'response';
+    }
 
     if (!data.selectedIds) {
-      url = `${this.IAEndpoint}/restapi/systemdata/search-compositions/${compositionId}?page=0&size=1&mode=export&exportFormat=${outPutFormat}`;
+      url = `${this.IAEndpoint}/restapi/systemdata/search-compositions/${data.compositionId}?page=0&size=1&mode=export&exportConfig=${exportConfig}`;
       if (data.sortOptions && data.sortOptions.colName) {
         url += `&sort=${data.sortOptions.colName},${ (data.sortOptions.asc ? 'asc' : 'desc')}`;
       }
 
-      request = this.httpClient.post(url, data.query, {headers: headers, responseType: 'blob', observe: 'response' })
+      request = this.httpClient.post(url, data.query, postOptions)
     } else {
-      headers = new HttpHeaders().set('Content-Type', 'application/json');
-      url = `${this.IAEndpoint}/boot/api/docs/exportSelected?searchId=${compositionId}&exportFormat=${outPutFormat}`;
-      const body = JSON.stringify({selectedIds: data.selectedIds});
-      request = this.httpClient.post(url, body, {headers: headers, responseType: 'blob', observe: 'response' })
+      postOptions['headers'] = new HttpHeaders().set('Content-Type', 'application/json');
+      url = `${this.IAEndpoint}/boot/api/docs/exportSelected/${exportConfig}`;
+      const body = JSON.stringify({selectedIds: data.selectedIds, searchId: data.compositionId});
+      request = this.httpClient.post(url, body, postOptions)
     }
 
-    request.first().subscribe((value: HttpResponse<Blob>) => {
+    const out = new Subject();
+    if ( blobResult) {
+      request.first().subscribe((value: HttpResponse<Blob>) => {
         const contentType = value.headers.get('Content-Type') || 'application/octet-stream';
-
         const contentDisposition = value.headers.get('Content-Disposition');
 
         let fileName = contentDisposition
@@ -937,15 +948,22 @@ export class ApiService {
           .replace(/"/g, '') || 'export';
 
         fileName = decodeURIComponent(fileName);
-
         const blob = new Blob([value.body], {type: contentType});
         FileSaver.saveAs(blob, fileName);
+        out.next(null);
 
         // fileName = decodeURIComponent(fileName);
         // blob = new Blob([data], {type: contentType});
         // FileSaver.saveAs(blob, fileName);
 
-    })
+      });
+    } else {
+      request.first().subscribe((res: any) => {
+        out.next(res);
+      })
+    }
+
+    return out.asObservable();
   }
 
   public getDatasources(): Observable<string[]> {

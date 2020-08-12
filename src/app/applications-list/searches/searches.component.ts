@@ -652,7 +652,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
   }
 
   public export(selected = false) {
-    const params = {type: null, data: null, dataName: null};
+    const params = {application: this.application, type: null, data: null, dataName: null};
     if (selected) {
       if (this.selectedRowsIds && this.selectedRowsIds.length > 0) {
         params.type = ExportTypes.EXPORT_SELECTED;

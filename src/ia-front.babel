@@ -338,6 +338,31 @@
                             </translation>
                         </translations>
                     </concept_node>
+                    <concept_node>
+                        <name>export</name>
+                        <definition_loaded>false</definition_loaded>
+                        <description></description>
+                        <comment></comment>
+                        <default_text></default_text>
+                        <translations>
+                            <translation>
+                                <language>ar-AE</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>en-US</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>fr-FR</language>
+                                <approved>false</approved>
+                            </translation>
+                            <translation>
+                                <language>ru-RU</language>
+                                <approved>false</approved>
+                            </translation>
+                        </translations>
+                    </concept_node>
                 </children>
             </folder_node>
             <folder_node>
@@ -3656,6 +3681,31 @@
                                     </translation>
                                 </translations>
                             </concept_node>
+                            <concept_node>
+                                <name>title</name>
+                                <definition_loaded>false</definition_loaded>
+                                <description></description>
+                                <comment></comment>
+                                <default_text></default_text>
+                                <translations>
+                                    <translation>
+                                        <language>ar-AE</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                    <translation>
+                                        <language>en-US</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                    <translation>
+                                        <language>fr-FR</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                    <translation>
+                                        <language>ru-RU</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                </translations>
+                            </concept_node>
                         </children>
                     </folder_node>
                     <folder_node>
@@ -3816,6 +3866,31 @@
                                     </translation>
                                 </translations>
                             </concept_node>
+                            <concept_node>
+                                <name>info</name>
+                                <definition_loaded>false</definition_loaded>
+                                <description></description>
+                                <comment></comment>
+                                <default_text></default_text>
+                                <translations>
+                                    <translation>
+                                        <language>ar-AE</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                    <translation>
+                                        <language>en-US</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                    <translation>
+                                        <language>fr-FR</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                    <translation>
+                                        <language>ru-RU</language>
+                                        <approved>false</approved>
+                                    </translation>
+                                </translations>
+                            </concept_node>
                         </children>
                     </folder_node>
                     <concept_node>
@@ -3851,26 +3926,26 @@
         <translation_file>
             <language>en-US</language>
             <file>assets/i18n/en.json</file>
-            <file_size>4526</file_size>
-            <modification_timestamp>1536262163</modification_timestamp>
+            <file_size>4596</file_size>
+            <modification_timestamp>1565462723</modification_timestamp>
         </translation_file>
         <translation_file>
             <language>ru-RU</language>
             <file>assets/i18n/ru.json</file>
-            <file_size>6369</file_size>
-            <modification_timestamp>1536262163</modification_timestamp>
+            <file_size>6476</file_size>
+            <modification_timestamp>1565462723</modification_timestamp>
         </translation_file>
         <translation_file>
             <language>fr-FR</language>
             <file>assets/i18n/fr.json</file>
-            <file_size>4736</file_size>
-            <modification_timestamp>1536262163</modification_timestamp>
+            <file_size>4809</file_size>
+            <modification_timestamp>1565462723</modification_timestamp>
         </translation_file>
         <translation_file>
             <language>ar-AE</language>
             <file>assets/i18n/ar.json</file>
-            <file_size>5104</file_size>
-            <modification_timestamp>1536262163</modification_timestamp>
+            <file_size>5176</file_size>
+            <modification_timestamp>1565462723</modification_timestamp>
         </translation_file>
     </translation_files>
     <editor_configuration>
