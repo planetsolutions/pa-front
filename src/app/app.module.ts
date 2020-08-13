@@ -87,6 +87,7 @@ import {AlertDialogComponent} from './alerts/alert-dialog/alert-dialog.component
 import {AlertsService} from './alerts/alerts.service';
 import {TagsInputModule } from 'ngx-tags-input/dist';
 import {ProcessesManageComponent} from './processes-manage/processes-manage.component';
+import {ExportsManageComponent} from './exports-manage/exports-manage.component';
 import {FormsManageComponent} from './forms-manage/forms-manage.component';
 import { SipFormPgTabComponent } from './sip/sip-form/pg-impl/sip-form-pg-tab.component';
 import {arLocale, defineLocale, frLocale, ruLocale} from 'ngx-bootstrap';
@@ -140,6 +141,7 @@ defineLocale('ar', arLocale);
     PermissionsWidgetComponent,
     AuditWidgetComponent,
     ProcessesManageComponent,
+    ExportsManageComponent,
     TypeaheadWidgetComponent,
     FormsManageComponent,
     SipFormPgTabComponent,
@@ -181,6 +183,7 @@ defineLocale('ar', arLocale);
       { path: 'admin/storage', component: StorageManageComponent },
       { path: 'admin/users', component: UsersManageComponent },
       { path: 'admin/processes', component: ProcessesManageComponent },
+      { path: 'admin/export', component: ExportsManageComponent },
       { path: 'admin/forms', component: FormsManageComponent },
       { path: '**', component: PageNotFoundComponent }
     ], { useHash: environment.useHashLocationStrategy}),

@@ -14,7 +14,8 @@
 		"users": "Users",
 		"processes": "Processes",
 		"forms": "Forms",
-		"about": "About"
+		"about": "About",
+		"export": "Export"
 	},
 	"applications": {
 		"applications": "Applications",
@@ -199,7 +200,8 @@
 		"run": "Run",
 		"types": {
 			"all": "All",
-			"selected": "Selected"
+			"selected": "Selected",
+			"title": "Export Types"
 		},
 		"desc": {
 			"selected": "Objects selected for export: {{count}}",
@@ -208,8 +210,9 @@
 			"ftsearch": "\"{{query}}\" search results export"
 		},
 		"result": {
-			"format": "Result file format",
-			"subfolders": "Include subfolders"
+			"format": "Export Type",
+			"subfolders": "Include subfolders",
+			"info": "Succeeded: {{succeeded}}; Failed: {{failed}}"
 		},
 		"nothing": "No data for export"
 	}

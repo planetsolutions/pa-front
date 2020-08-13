@@ -22,9 +22,19 @@
     <div class="form-group">
       <label class="control-label col-sm-5" [translate]="'export.result.format'" style="padding-top: 0px"></label>
       <div class="col-sm-7">
-        <input type="radio" name="export_format" checked value="json" (click)="setFormat('json')"> JSON &nbsp; &nbsp;
-        <input type="radio" name="export_format" value="csv" (click)="setFormat('csv')"> CSV
+        <p *ngFor="let elem of exports">
+          <input type="radio" name="export_format" [disabled]="isLoading"
+                 [value]="elem.symbolicName" (click)="setFormat(elem.symbolicName, elem.type)" >
+          {{elem.title}} &nbsp;
+        </p>
       </div>
+    </div>
+
+    <div class="text-center" *ngIf="isLoading">
+      <div class="spinner" style="margin-top:0px"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
+    </div>
+    <div *ngIf="!!result">
+      {{result}}
     </div>
 
     <div class="form-group" *ngIf="type === 'folder'">
@@ -39,6 +49,7 @@
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success btn-sm" (click)="submit()" [translate]="'export.run'">Run</button>
+  <button type="button" [disabled]="!format || isLoading" class="btn btn-success btn-sm" (click)="submit()" [translate]="'export.run'">Run</button>
   <button type="button" class="btn btn-default btn-sm" (click)="bsModalRef.hide()" [translate]="'actions.cancel'">Cancel</button>
 </div>
+

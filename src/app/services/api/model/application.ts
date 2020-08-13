@@ -9,6 +9,7 @@ export class Application extends HalLinkedObject {
   public icon: string;
   public platform: Platforms;
   public createTypes: string[];
+  public exports: string[];
   public useFTSearch = 'enabled';
 
   constructor(json: any) {
@@ -27,6 +28,11 @@ export class Application extends HalLinkedObject {
       this.createTypes = json.appData.create_types;
     } else {
       this.createTypes = [];
+    }
+    if (json.appData && json.appData.exports) {
+      this.exports = json.appData.exports;
+    } else {
+      this.exports = [];
     }
     if (json.appData && json.appData.icon) {
       this.icon = json.appData.icon;
