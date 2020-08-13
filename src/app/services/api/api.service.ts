@@ -819,7 +819,7 @@ export class ApiService {
     delete doc.acl;
     delete doc.versionSeries;
 
-    if(doc.data && doc.data.symbolicName) {
+    if (doc.data && doc.data.symbolicName) {
       doc['symbolicName'] = doc.data.symbolicName;
     }
 

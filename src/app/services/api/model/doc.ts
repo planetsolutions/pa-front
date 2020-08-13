@@ -14,8 +14,11 @@ export class Doc {
   public versionSeries: string;
   public docVersion: string;
   public lastVersion: boolean;
+  public parent: string;
+  public allData: any;
 
   constructor(json: any) {
+    this.allData = json;
     this.title = (json.title || null);
     this.id = (json.id || json.uuid || null);
     this.author = (json.author || null);
@@ -31,5 +34,6 @@ export class Doc {
     this.docVersion = json.docVersion;
     this.versionSeries = json.versionSeries || json.uuid;
     this.lastVersion = json.lastVersion;
+    this.parent = (json.parent || null);
   }
 }

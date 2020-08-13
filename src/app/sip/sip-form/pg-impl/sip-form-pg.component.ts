@@ -107,6 +107,7 @@ export class SipFormPgComponent implements SipFormI {
           if (this.application) {
             this.apiService.getApplicationTreeRoot(this.application.uuid).subscribe(rootId => {
               this.parentFolderId = rootId;
+              this.docData['parent'] = this.parentFolderId;
             });
           } else {
             this.parentFolderId = environment.rootId;
@@ -165,8 +166,31 @@ export class SipFormPgComponent implements SipFormI {
       schemaProps['description'] = {title: this.translate.instant('document.descr'), type: 'string', index: 100, level: 100};
     }
 
+    if (!schemaProps.parent) {
+      // insert descr to the end
+      schemaProps['parent'] = {title: this.translate.instant('folder.folder'), type: 'string', index: 101, level: 101};
+    }
+
     if (this.doc && !this.docData.description) {
       this.docData['description'] = this.doc.description;
+    }
+    if (this.doc && !this.docData.parent) {
+      this.docData['parent'] = this.doc.parent || this.parentFolderId;
+    }
+    if (!this.doc) {
+      if (!this.docData) {
+        this.docData = {};
+      }
+      this.docData['parent'] = this.parentFolderId;
+    }
+
+    if (this.isSystem) {
+      if (!schemaProps.symbolicName) {
+        schemaProps['symbolicName'] = {title: this.translate.instant('document.symbolicName'), type: 'string', index: -1, level: -1};
+      }
+      if (this.doc && !this.docData.symbolicName) {
+        this.docData['symbolicName'] = this.doc['symbolicName'];
+      }
     }
 
     schemaProps = this.sortProperties(schemaProps);
@@ -280,7 +304,13 @@ export class SipFormPgComponent implements SipFormI {
       obs = this.apiService.saveSystemDoc(doc);
     } else {
       // obs = this.apiService.saveDocument(doc, this.parentFolderId, (this.attachments ? this.attachments[0] : null));
-      obs = this.apiService.saveDocumentData(doc, !this.docId ? this.parentFolderId : undefined)
+      let folderId = doc.parent;
+      if (!folderId || folderId === '') {
+        if (!this.docId) {
+          folderId = this.parentFolderId;
+        }
+      }
+      obs = this.apiService.saveDocumentData(doc, folderId)
         .flatMap((result: Doc) => {
           doc =  result;
           if (this.attachments && this.attachments.length > 0) {
@@ -389,34 +419,39 @@ export class SipFormPgComponent implements SipFormI {
 
 
   prepareDocument(): Doc {
-      const doc = new Doc({});
-      const date = new Date();
+    const doc = new Doc({});
+    const date = new Date();
 
-      doc.id = this.docId || null;
-      doc.type = this.docType.symbolicName;
-      doc.title = this.liveFormData.title ? this.liveFormData.title + '' : date.toString();
-      doc.description = this.liveFormData.description ? this.liveFormData.description : '';
+    doc.id = this.docId || null;
+    doc.type = this.docType.symbolicName;
+    doc.title = this.liveFormData.title ? this.liveFormData.title + '' : date.toString();
+    doc.description = this.liveFormData.description ? this.liveFormData.description : '';
       doc.baseType = this.baseType;
 
-      delete this.liveFormData.title;
-      delete this.liveFormData.description;
+    if (this.liveFormData.parent && this.liveFormData.parent !== '') {
+      doc.parent = this.liveFormData.parent;
+    }
 
-      doc.data = this.liveFormData;
+    delete this.liveFormData.title;
+    delete this.liveFormData.description;
+    delete this.liveFormData.parent;
 
-      for (const propName in this.docType.schema.properties) {
-        const prop = this.docType.schema.properties[propName];
-        if (prop.format === 'date-time') {
-          const val = doc.data[propName];
-          if (val && val !== '') {
-            doc.data[propName] = this.dateTimePipe.transform(val, {format: 'yyyy-MM-ddTHH:mm:ss'}) + 'Z';
-          }
-        }
-        if (!doc.data[propName]) {
-          if (this.docId && this.docData && this.docData[propName] && this.docData[propName] !== '') {
-            doc.data[propName] = 'null'; // принудительное обнуление
-          }
+    doc.data = this.liveFormData;
+
+    for (const propName in this.docType.schema.properties) {
+      const prop = this.docType.schema.properties[propName];
+      if (prop.format === 'date-time') {
+        const val = doc.data[propName];
+        if (val && val !== '') {
+          doc.data[propName] = this.dateTimePipe.transform(val, {format: 'yyyy-MM-ddTHH:mm:ss'}) + 'Z';
         }
       }
+      if (!doc.data[propName]) {
+        if (this.docId && this.docData && this.docData[propName] && this.docData[propName] !== '') {
+          doc.data[propName] = 'null'; // принудительное обнуление
+        }
+      }
+    }
 
       return doc;
   }

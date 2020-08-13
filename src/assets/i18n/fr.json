@@ -93,7 +93,8 @@
 		"versions": {
 			"tab": "Versions",
 			"last": "Last version"
-		}
+		},
+		"symbolicName": "Nom symbolique"
 	},
 	"type": {
 		"selectTitle": "Types",
