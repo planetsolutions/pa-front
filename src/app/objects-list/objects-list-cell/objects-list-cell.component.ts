@@ -36,11 +36,9 @@ export class ObjectsListCellComponent implements OnInit {
 
   @Input() set row(value: SearchResultRow) {
     this._row = value;
-    this.initCell();
   }
   @Input() set column(value: any) {
     this._col = value;
-    this.initCell();
   }
 
   get column() {
@@ -62,6 +60,7 @@ export class ObjectsListCellComponent implements OnInit {
     });
     this.commService.get('groups').subscribe((val) => {
       this.groups = val;
+      this.initCell();
     });
   }
 
@@ -142,6 +141,11 @@ export class ObjectsListCellComponent implements OnInit {
             this.value = colChangeConfig[testValue];
             this._nextValue = colChangeConfig[testValue];
           } else {
+            if (colChangeConfig[testValue].showWhen ) {
+              if (!this.compileTemplate(colChangeConfig[testValue].showWhen)) {
+                break;
+              }
+            }
             this.value = colChangeConfig[testValue].label;
             this._nextValue = colChangeConfig[testValue].value;
           }
