@@ -97,13 +97,13 @@ export class TypeaheadWidgetComponent implements OnInit {
 
     if (!searchType) {
       console.error('this.searchType is undefined!');
-      return Observable.of([]);
+      //return Observable.of([]);
     }
 
     if (this.options.typeahead && this.options.typeahead.server) {
       if (!token || token === '') {
         return Observable.of([]);
-      } else {
+      } else if (searchType) {
         return this.api.getUsedFieldValues(searchType, this.controlName, token);
       }
     }
@@ -118,10 +118,12 @@ export class TypeaheadWidgetComponent implements OnInit {
           this.listSubject.next(values);
         });
 
-      } else {
+      } else if (searchType) {
         this.api.getUsedFieldValues(searchType, this.controlName).subscribe((result) => {
           this.listSubject.next(result);
         })
+      } else {
+        return Observable.of([]);
       }
     }
 
