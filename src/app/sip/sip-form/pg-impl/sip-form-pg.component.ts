@@ -140,6 +140,7 @@ export class SipFormPgComponent implements SipFormI {
           })
         }
 
+        //console.log(this.docType);
 
       }, err => this.formError = err);
   }
@@ -270,12 +271,31 @@ export class SipFormPgComponent implements SipFormI {
   changeMode(editMode: boolean): void {
 
     if (this.docType && this.docType.schema) {
-
       this.formSchema = null;
       const that = this;
-      setTimeout(() => {
-        that.formSchema = this.buildSchema();  // почему-то не срабатывает, если менять сразу
-      }, 100);
+
+      if (this.docId) {
+        //на всякий случай перечитаем данные
+        let obs: Observable<Doc>;
+        if (this.isSystem) {
+          obs = this.apiService.getSystemDoc(this.docId, true);
+        } else {
+          obs = this.apiService.getDocument(this.docId, this.docTypeId);
+        }
+
+        obs.subscribe((doc: Doc) => {
+          this.docData = doc.data || {};
+
+          setTimeout(() => {
+            that.formSchema = this.buildSchema();  // почему-то не срабатывает, если менять сразу
+          }, 100);
+        });
+      } else {
+        setTimeout(() => {
+          that.formSchema = this.buildSchema();  // почему-то не срабатывает, если менять сразу
+        }, 100);
+      }
+
 
     } else {
       console.log('doc type not found!!');
@@ -400,6 +420,28 @@ export class SipFormPgComponent implements SipFormI {
       btnHtmlClass: 'btn-sm'
     };
 
+    if (origProp && origProp['enum']) {
+      if (this.mode) {
+        delete propObj.type;
+        //set default selected
+        if (!this.docData[name] || origProp['enum'].indexOf(this.docData[name]) === -1) {
+          this.docData[name] = origProp['enum'][0];
+        }
+      } else {
+        delete property.enum;
+      }
+      if (typeProp && typeProp['titleMap']) {
+        if (this.mode) {
+          propObj['titleMap'] = typeProp['titleMap'];
+        } else if (this.docData[name] && this.docData[name] !== '') {
+          const selected = typeProp['titleMap'].filter((p) => p.value === this.docData[name]);
+          if (selected[0]) {
+            this.docData[name] = selected[0].name;
+          }
+        }
+      }
+    }
+
     if (property.type === 'integer' || property.type === 'number') {
       propObj.type = 'number';
     }
@@ -412,6 +454,7 @@ export class SipFormPgComponent implements SipFormI {
         propObj['typeahead'] = {server: true}
       }
     }
+    //console.log({typeProp: typeProp, propObj: propObj} );
 
     layout.push(propObj);
 
