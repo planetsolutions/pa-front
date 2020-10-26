@@ -9,31 +9,53 @@ import {DomSanitizer} from '@angular/platform-browser';
 
 @Injectable()
 export class PreviewService {
+  private supportedImg = ['jpg', 'jpeg', 'png', 'gif'];
+  private supportedVideo = ['mp4', 'avi', 'mov', 'mkv'];
+  private supportedPDF = ['pdf'];
 
   constructor(private apiService: ApiService, private modalService: BsModalService, private sanitizer: DomSanitizer) {
   }
 
+
   public isPreviewSupported(fileNameOrMime: string): boolean {
-    const supported = ['jpg', 'jpeg', 'png', 'gif'];
     const filename = fileNameOrMime;
     if (filename && filename.indexOf && filename.indexOf('.') > -1 ) {
       const ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
-      if (supported.indexOf(ext) > -1) {
+      if (this.supportedImg
+          .concat(this.supportedVideo)
+          .concat(this.supportedPDF)
+          .indexOf(ext) > -1) {
         return true;
       }
     }
     return false;
   }
 
-  public launch(id: string, application: Application) {
+  public launch(id: string, fileName: string) {
     const bsModalRef = this.modalService.show(PreviewDialogComponent, {
       animated: true, keyboard: true, backdrop: true, ignoreBackdropClick: false, class: 'modal-lg'
     });
     const formComponent: PreviewDialogComponent = (<PreviewDialogComponent>bsModalRef.content);
+    formComponent.src = this.sanitizer.bypassSecurityTrustUrl(this.apiService.getDocumentContentUrl(id));
+    formComponent.fileName = fileName;
 
-    this.apiService.getDocumentContent(id).subscribe((file: ContentData) => {
-      formComponent.imgSrc = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file.blob));
-    });
+    const ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+    if (this.supportedImg.indexOf(ext) > -1) {
+      formComponent.mimeType = 'image/' + ext;
+    } else if (this.supportedVideo.indexOf(ext) > -1) {
+      formComponent.mimeType = 'video/' + ext;
+    } else if (this.supportedPDF.indexOf(ext) > -1) {
+      formComponent.mimeType = 'application/pdf';
+    } else {
+      console.exception('Unknow mime type: ' + fileName);
+      formComponent.mimeType = '';
+    }
+
+    formComponent.afterParamsSet();
+
+    //this.apiService.getDocumentContent(id).subscribe((file: ContentData) => {
+      //formComponent.src = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file.blob));
+    //});
   }
 
 }
