@@ -680,7 +680,7 @@ export class ApiService {
   }
 
   public getDocumentContent(docId: string, type?: string): Observable<ContentData> {
-    const url = `${this.IAEndpoint}/boot/api/docs/getcontent/${docId}` + (type ? '?type=' + type : '');
+    const url = this.getDocumentContentUrl(docId, type);
     // const url = `${this.IAEndpoint}/boot/browser/test/root?objectId=${docId}&cmisselector=content`;
 
     return this.httpClient.request('get', url,
@@ -705,6 +705,10 @@ export class ApiService {
         result.mimeType = contentType;
         return result;
       });
+  }
+
+  public getDocumentContentUrl(docId: string, type?: string): string {
+    return `${this.IAEndpoint}/boot/api/docs/getcontent/${docId}` + (type ? '?type=' + type : '');
   }
 
   public getCmisData(parentId: string = environment.rootId, filter: string, count?: number, page?: number, sortOptions?: SortOptions): Observable<PagedList<CmisObject>> {

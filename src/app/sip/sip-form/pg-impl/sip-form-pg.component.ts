@@ -372,7 +372,7 @@ export class SipFormPgComponent implements SipFormI {
   onFileIconClick(fileName: string, id: string) {
     if (fileName && fileName !== '' && id && id !== '') {
       if (this.preview.isPreviewSupported(fileName)) {
-          this.preview.launch(id, this.application);
+          this.preview.launch(id, fileName);
       }
     }
   }

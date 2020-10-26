@@ -25,7 +25,8 @@
         "styles.css",
         "../node_modules/angular-tree-component/dist/angular-tree-component.css",
         "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
-        "../node_modules/mdi/css/materialdesignicons.min.css"
+        "../node_modules/mdi/css/materialdesignicons.min.css",
+        "../node_modules/videogular2/fonts/videogular.css"
       ],
       "scripts": [
 

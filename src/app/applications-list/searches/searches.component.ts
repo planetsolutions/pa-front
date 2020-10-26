@@ -529,7 +529,8 @@ export class SearchesComponent implements OnInit, OnDestroy {
     if (this.application.platform !== Platforms.IA) {
 
       if (link.preview) {
-        this.previewService.launch(link.row.id, this.application);
+        const fileName = link.row.get(link.col.name).value;
+        this.previewService.launch(link.row.id, fileName);
         return;
       }
 

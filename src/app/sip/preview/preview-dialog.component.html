@@ -1,7 +1,13 @@
+<div class="modal-header">
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 <div class="modal-body">
 
-  <img class="img-responsive" [src]="imgSrc" />
+  <ng-template appDynComponent></ng-template>
 
+  <div *ngIf="!mimeType">Unknown mimeType</div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default btn-sm" (click)="bsModalRef.hide()" [translate]="'actions.close'">Close</button>

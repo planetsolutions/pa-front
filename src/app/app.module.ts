@@ -19,6 +19,13 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { VgCoreModule } from 'videogular2/core';
+import { VgControlsModule } from 'videogular2/controls';
+import { VgOverlayPlayModule } from 'videogular2/overlay-play';
+import { VgBufferingModule } from 'videogular2/buffering';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {TagsInputModule } from 'ngx-tags-input/dist';
+
 import {SharedModule} from './shared.module';
 
 import {XsdParserService} from './services/util/xsd.parser.service';
@@ -55,6 +62,7 @@ import {AppDynComponentDirective } from './sip/sip-form/dynamic-component-host.d
 import {SipService} from './sip/sip.service';
 import {PreviewService} from './sip/preview/preview.service';
 import {SipFormI} from './sip/sip-form/sip-form-i';
+import {PreviewI} from './sip/preview/preview-i';
 
 import { TypesManageComponent } from './type/types-manage/types-manage.component';
 import { TypesTreeComponent } from './type/types-manage/types-tree/types-tree.component';
@@ -85,7 +93,6 @@ import {ObjectsListSetupDialogComponent} from './objects-list/setup/setup-dialog
 import {ObjectsListSetupService} from './objects-list/setup/objects-list-setup.service';
 import {AlertDialogComponent} from './alerts/alert-dialog/alert-dialog.component';
 import {AlertsService} from './alerts/alerts.service';
-import {TagsInputModule } from 'ngx-tags-input/dist';
 import {ProcessesManageComponent} from './processes-manage/processes-manage.component';
 import {ExportsManageComponent} from './exports-manage/exports-manage.component';
 import {FormsManageComponent} from './forms-manage/forms-manage.component';
@@ -95,6 +102,10 @@ import {ExportDialogComponent} from './applications-list/searches/export/export-
 import {ExportService} from './applications-list/searches/export/export.service';
 import {FacetsComponent} from './applications-list/searches/facets/facets.component';
 import {PreviewDialogComponent} from './sip/preview/preview-dialog.component';
+import {PreviewVideoComponent} from './sip/preview/video-impl/preview-video.component';
+import {PreviewPictureComponent} from './sip/preview/picture-impl/preview-picture.component';
+import {PreviewPdfComponent} from './sip/preview/pdf-impl/preview-pdf.component';
+
 
 defineLocale('ru', ruLocale);
 defineLocale('fr', frLocale);
@@ -147,7 +158,10 @@ defineLocale('ar', arLocale);
     SipFormPgTabComponent,
     ExportDialogComponent,
     FacetsComponent,
-    PreviewDialogComponent
+    PreviewDialogComponent,
+    PreviewVideoComponent,
+    PreviewPictureComponent,
+    PreviewPdfComponent
   ],
   imports: [
     SharedModule,
@@ -189,7 +203,12 @@ defineLocale('ar', arLocale);
     ], { useHash: environment.useHashLocationStrategy}),
     TagsInputModule.forRoot(),
     TypeaheadModule.forRoot(),
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+    PdfViewerModule
   ],
   providers: [AuthGuard, ApiService, SipService, PreviewService, XsdParserService, XformParserService, AuthService, SystemService, UserService, GroupService,
               QuestionControlService, CommunicationService, TypeSelectService, FolderService, SearchFormService,
@@ -205,6 +224,6 @@ defineLocale('ar', arLocale);
   entryComponents: [TypeSelectComponent, TypeSelectWidgetComponent, DatePickerWidgetComponent, SipFormComponent, UserEditComponent, GroupEditComponent,
     SipFormPgComponent, SipFormIaComponent, SipFormDataComponent, TypesTreeComponent, FolderEditDialogComponent, FolderEditComponent, SearchFormComponent,
     ObjectsListSetupDialogComponent, AlertDialogComponent, PermissionsWidgetComponent, AuditWidgetComponent, TypeaheadWidgetComponent, ExportDialogComponent,
-    PreviewDialogComponent]
+    PreviewDialogComponent, PreviewVideoComponent, PreviewPictureComponent, PreviewPdfComponent]
 })
 export class AppModule { }

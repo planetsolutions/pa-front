@@ -33,6 +33,7 @@
     "@ngx-translate/core": "9.1.1",
     "@ngx-translate/http-loader": "2.0.1",
     "@types/lodash": "4.14.116",
+    "@types/pdfjs-dist": "0.1.2",
     "ajv": "^6.4.0",
     "angular-tree-component": "^7.1.0",
     "angular2-json-schema-form": "^0.7.0-alpha.1",
@@ -49,6 +50,7 @@
     "mdi": "^2.2.43",
     "mobx": "^4.1.1",
     "mobx-angular": "^3.0.1",
+    "ng2-pdf-viewer": "5.2.1",
     "ngx-bootstrap": "^2.0.3",
     "ngx-infinite-scroll": "0.8.4",
     "ngx-pagination": "^3.1.0",
@@ -57,6 +59,7 @@
     "require": "^2.4.20",
     "rxjs": "^5.5.8",
     "typings": "^2.1.1",
+    "videogular2": "6.1.0",
     "web-animations-js": "^2.3.1",
     "xmlbuilder": "^9.0.7",
     "zone.js": "^0.8.25"
