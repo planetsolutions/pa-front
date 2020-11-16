@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Application} from '../index';
-import * as JSZip from 'jszip';
 import {ApiService} from '../services/api/api.service';
 
 @Component({

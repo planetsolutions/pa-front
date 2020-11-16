@@ -65,6 +65,11 @@
 		"facets": {
 			"other": "other...",
 			"back": "back to list"
+		},
+		"view": {
+			"table": "Table",
+			"tiles": "Tile",
+			"default": "Default"
 		}
 	},
 	"document": {
@@ -190,7 +195,8 @@
 	"setup": {
 		"visibleColumns": "Visible Columns",
 		"pageSize": "Page Size",
-		"autoRefresh": "Aurorefresh after, sec"
+		"autoRefresh": "Aurorefresh after, sec",
+		"displayType": "View"
 	},
 	"error": {
 		"title": "Error"

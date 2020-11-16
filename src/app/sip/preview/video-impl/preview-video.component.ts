@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {SafeUrl} from '@angular/platform-browser';
 import {PreviewI} from '../preview-i';
 
@@ -7,9 +7,9 @@ import {PreviewI} from '../preview-i';
   templateUrl: './preview-video.component.html'
 })
 export class PreviewVideoComponent implements PreviewI {
-  src: SafeUrl;
-  mimeType: string;
-  fileName: string;
+  @Input()  src: SafeUrl;
+  @Input()  mimeType: string;
+  @Input()  fileName: string;
 
   constructor() { }
 

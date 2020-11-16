@@ -2,7 +2,8 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Search, SearchComposition, Application, ResultMaster, ResultMasterColumnTypes, SortOptions,
-  ResultMasterPanelTabColumn, Platforms, CmisConstants, SearchResultRow, CmisObject, PagedList, XForm, Doc } from '../../index';
+  ResultMasterPanelTabColumn, Platforms, CmisConstants, SearchResultRow, SearchResultRowColumn,
+  CmisObject, PagedList, XForm, Doc } from '../../index';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/interval';
@@ -17,8 +18,10 @@ import {ExportService, ExportTypes} from './export/export.service';
 import {AlertsService} from '../../alerts/alerts.service';
 import {Subscription} from 'rxjs/Subscription';
 import {PagingTypes} from '../../objects-list/objects-list.component';
+import {DisplayTypes} from '../../objects-list/objects-list.component';
 import {PreviewService} from '../../sip/preview/preview.service';
-import {SearchResultRowColumn} from "../../services/api/model/search-result-row";
+import {environment} from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-searches',
@@ -44,8 +47,10 @@ export class SearchesComponent implements OnInit, OnDestroy {
   public loadingSearches = true;
   public searches: Search[] = [];
   public selectedSearch: Search;
+  public lastSelectedSearch: Search;
   public selectedFolder: CmisObject;
   private selectedFolderPath: CmisObject[];
+  public lastSelectedFolderPath: CmisObject[];
   private selectedSearchComposition: SearchComposition;
   public xForm: XForm;
   public setupDisp = null;
@@ -67,8 +72,11 @@ export class SearchesComponent implements OnInit, OnDestroy {
   private selectedRowsIds: string[];
   private onColChangeSubs: Subscription;
   private pagingType: string;
+  private displayType: string;
+  private displayTypeRoot: string;
   private isLastPage = false;
   private autoRefreshTask: Subscription = null;
+
 
   breadCrumbs: { name: string, id: string, func?: any }[] = [];
 
@@ -76,7 +84,6 @@ export class SearchesComponent implements OnInit, OnDestroy {
 
   expanded = true;
   expandedState = 'expanded';
-  menuMode = 'search';
   menuMaxHeight = 0;
   ftQuery = '';
   ftAggregations: any;
@@ -113,10 +120,23 @@ export class SearchesComponent implements OnInit, OnDestroy {
           }
         );
       });
+
+    if (window.innerWidth < environment.minScreenSize) {
+      this.expanded = false;
+      this.expandedState = 'collapsed';
+    }
+
     this.calcHeight();
 
     this.onColChangeSubs = this.listSetupService.getDispColumns().subscribe((setup) => {
       this.setupDisp = setup;
+      if (setup.displayType && setup.displayType !== '') {
+        this.displayType = setup.displayType;
+      } else if (this.displayTypeRoot && this.displayTypeRoot !== '') {
+        this.displayType = this.displayTypeRoot;
+      } else {
+        this.displayType = this.calcDisplayType();
+      }
       this.onItemsPageChange(1);
     });
   }
@@ -135,7 +155,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
 
   selectSearch(search: Search, noContent = false) {
     if (this.selectedSearch && this.selectedSearch.uuid === search.uuid) { return; }
-
+    this.lastSelectedSearch = JSON.parse(JSON.stringify(search));
     this.ftQuery = '';
     this.selectedFolder = null;
     this.selectedFolderPath = null;
@@ -184,6 +204,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
   }
 
   public onTreeFolderSelected(folders: CmisObject[]) {
+    this.lastSelectedFolderPath = JSON.parse(JSON.stringify(folders));
     this.selectedSearch = null;
     this.selectedFolder = folders[0];
     this.selectedFolderPath = folders;
@@ -220,7 +241,10 @@ export class SearchesComponent implements OnInit, OnDestroy {
     this.rootId = rootDoc.id;
     if (rootDoc.data && rootDoc.data.defaultSorting && rootDoc.data.defaultSorting.colName) {
       this.defaultSortOptions = rootDoc.data.defaultSorting;
+    }
 
+    if (rootDoc.data && rootDoc.data.displayType) {
+      this.displayTypeRoot = rootDoc.data.displayType;
     }
     if (rootDoc.data && rootDoc.data.fields) {
       this.rootFolderColumns = rootDoc.data.fields;
@@ -347,7 +371,9 @@ export class SearchesComponent implements OnInit, OnDestroy {
 
   private getPageSize(): number {
     let pageSize = this.pageSize;
-    if (this.pagingType === PagingTypes.CONTINUATION) {
+    if (this.displayType === DisplayTypes.TILES) {
+      pageSize = 30;
+    } else if (this.pagingType === PagingTypes.CONTINUATION) {
       pageSize = 100;
     } else {
       pageSize = this.setupDisp.pageSize;
@@ -691,6 +717,28 @@ export class SearchesComponent implements OnInit, OnDestroy {
     this.loadFTSearchContents(agr);
   }
 
+  public openLastFolder() {
+    if (this.lastSelectedFolderPath) {
+      this.onTreeFolderSelected(this.lastSelectedFolderPath);
+    } else if (!this.rootId) {
+      console.log('loading root folder...');
+      const that = this;
+      this.apiService.getApplicationTreeRoot(this.application.uuid).subscribe(rootId => {
+        this.apiService.getDocument(rootId).subscribe((rootDoc: Doc) => {
+          that.onRootFolderLoaded(rootDoc);
+          const root = that.mapDocToCmisObj(rootDoc);
+          root.hasChildren = true;
+          that.onTreeFolderSelected([root]);
+        });
+      });
+    }
+  }
+  public openLastSearch() {
+    if (this.lastSelectedSearch) {
+      this.selectSearch(this.lastSelectedSearch);
+    }
+  }
+
   private calcHeight() {
     this.menuMaxHeight = window.innerHeight - 160;
     if (this.menuMaxHeight < 200) {
@@ -714,6 +762,14 @@ export class SearchesComponent implements OnInit, OnDestroy {
             this.loadFolderContents();
           },
           error => {console.log(error)});
+    }
+  }
+
+  private calcDisplayType(): string {
+    if (window.innerWidth < environment.minScreenSize) {
+      return DisplayTypes.TILES;
+    } else {
+      return DisplayTypes.TABLE;
     }
   }
 

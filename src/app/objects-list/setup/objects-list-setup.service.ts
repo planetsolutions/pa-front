@@ -5,7 +5,8 @@ import {AuthService} from '../../services/api/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {BsModalService} from 'ngx-bootstrap';
 import {ObjectsListSetupDialogComponent} from './setup-dialog.component';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
+import {DisplayTypes} from '../objects-list.component';
 
 @Injectable()
 export class ObjectsListSetupService {
@@ -14,12 +15,14 @@ export class ObjectsListSetupService {
   private hiddenList = {};
   private pageSize = 0;
   private autoRefresh = 0;
-  private subscription: Subject<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number}> = new Subject<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number}>();
+  private displayType: string;
+  private subscription: Subject<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number, displayType: string}> = new Subject<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number, displayType: string}>();
 
   constructor(private authService: AuthService, private modalService: BsModalService) {
     this.hiddenList = this.authService.getHiddenColumns() || {};
     this.pageSize = this.authService.getPageSize() || environment.itemsOnPage;
     this.autoRefresh = this.authService.getAutoRefresh() || environment.autoRefresh;
+    this.displayType = this.authService.getDisplayType();
   }
 
   private transformColumns(): ResultMasterPanelTabColumn[] {
@@ -28,15 +31,15 @@ export class ObjectsListSetupService {
       return arr;
   }
 
-  setColumns(cols: ResultMasterPanelTabColumn[]): Observable<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number}> {
+  setColumns(cols: ResultMasterPanelTabColumn[]): Observable<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number, displayType: string}> {
     this.columns = cols;
 
-    this.subscription.next({columns: this.transformColumns(), pageSize: this.pageSize, autoRefresh: this.autoRefresh });
+    this.subscription.next({columns: this.transformColumns(), pageSize: this.pageSize, autoRefresh: this.autoRefresh, displayType: this.displayType });
 
     return this.subscription;
   }
 
-  getDispColumns(): Subject<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number}> {
+  getDispColumns(): Subject<{columns: ResultMasterPanelTabColumn[], pageSize: number, autoRefresh: number, displayType: string}> {
     return this.subscription;
   }
 
@@ -51,14 +54,17 @@ export class ObjectsListSetupService {
     formComponent.pageSize = this.pageSize;
     formComponent.autoRefresh = this.autoRefresh;
     formComponent.hidePages = hidePages;
-    formComponent.onSubmit.subscribe((value: {newHiddenList: any, pageSize: number, autoRefresh: number}) => {
+    formComponent.displayType = this.displayType;
+    formComponent.onSubmit.subscribe((value: {newHiddenList: any, pageSize: number, autoRefresh: number, displayType: string}) => {
       this.hiddenList = value.newHiddenList;
       this.pageSize = value.pageSize;
       this.autoRefresh = value.autoRefresh;
+      this.displayType = value.displayType;
       this.authService.setHiddenColumns(this.hiddenList);
       this.authService.setPageSize(this.pageSize);
       this.authService.setAutoRefresh(this.autoRefresh);
-      this.subscription.next({columns: this.transformColumns(), pageSize: this.pageSize, autoRefresh: this.autoRefresh});
+      this.authService.setDisplayType(this.displayType);
+      this.subscription.next({columns: this.transformColumns(), pageSize: this.pageSize, autoRefresh: this.autoRefresh, displayType: this.displayType});
     });
   }
 

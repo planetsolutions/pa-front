@@ -50,6 +50,7 @@ import { ApplicationTreeComponent } from './applications-list/searches/applicati
 
 import { ObjectsListComponent } from './objects-list/objects-list.component';
 import { ObjectsListCellComponent } from './objects-list/objects-list-cell/objects-list-cell.component';
+import { ObjectsListTileCellComponent } from './objects-list/objects-list-cell/objects-list-tile-cell.component';
 
 import { SipFormComponent } from './sip/sip-form/sip-form.component';
 import {SipFormPgComponent} from './sip/sip-form/pg-impl/sip-form-pg.component';
@@ -126,6 +127,7 @@ defineLocale('ar', arLocale);
     ApplicationTreeComponent,
     ObjectsListComponent,
     ObjectsListCellComponent,
+    ObjectsListTileCellComponent,
 
     SipFormComponent,
     SipFormPgComponent,

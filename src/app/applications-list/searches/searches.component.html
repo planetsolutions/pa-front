@@ -12,6 +12,10 @@
           <i *ngIf="!expanded" class="glyphicon glyphicon-chevron-right"></i>
         </a>
 
+        <div *ngIf="!expanded" style="position: absolute; top: 40px; left: 2px;">
+          <a *ngIf="selectedSearch" href="javascript://" (click)="openLastFolder()" ><i class="mdi  mdi-folder mdi-24px color-grey"></i></a>
+          <a *ngIf="selectedFolder && lastSelectedSearch" href="javascript://" (click)="openLastSearch()" ><i class="mdi  mdi-file-find mdi-24px color-grey"></i></a>
+        </div>
         <tabset *ngIf="expanded">
           <tab [customClass]="'menuBarTab'" heading="{{'applications.tabs.searches' | translate}}" id="tabSearch"
                [active]="tab1Active" (select)="tab1Active = true" (deselect)="tab1Active = false">
@@ -42,7 +46,8 @@
   </div>
   <div class="main" [@bodyMarginTrigger]="expandedState">
 
-    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px"><tr><td>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px"><tr>
+     <td>
       <ol class="breadcrumb" style="margin: 0 !important">
         <li><a routerLink="/" [translate]="'applications.applications'"></a></li>
         <li *ngIf="application" class="active">{{ application.name }}</li>
@@ -54,9 +59,9 @@
         <span *ngIf="dataTotalCountLoading" class="pull-right">{{'search.total' | translate}}:
           <div class="spinner spinner-sm" style="display: inline-block"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></span>
       </ol>
-
     </td>
-    <td align="right" [ngStyle]="{'width': (selectedFolder ? '210px' : (selectedSearch ? '125px' : '85px'))}">
+    <td align="right" style="width:10px">
+      <div class="hidden-xs" [ngStyle]="{'width': (selectedFolder ? '210px' : (selectedSearch ? '125px' : '85px'))}">
         <button type="button" (click)="refresh()" *ngIf="selectedFolder" class="btn btn-default btn-sm"
                 [attr.title]="'actions.refresh' | translate"><i class="glyphicon glyphicon-refresh"></i></button>
         <button type="button" (click)="openSearch()" *ngIf="selectedSearch" class="btn btn-default btn-sm"
@@ -85,11 +90,37 @@
             <li role="menuitem"><a class="dropdown-item" href="javascript://" (click)="export(true)" [translate]="'export.types.selected'"></a></li>
           </ul>
         </div>
+      </div>
+      <div class="hidden-sm hidden-md hidden-lg">
+        <div class="btn-group btn-group-sm" dropdown>
+          <button dropdownToggle type="button" class="btn btn-default dropdown-toggle">
+            <i class="glyphicon glyphicon-menu-hamburger"></i>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu" style="left:-160px !important">
+            <li role="menuitem" *ngIf="selectedFolder"><a class="dropdown-item" href="javascript://" (click)="refresh()" [translate]="'actions.refresh'"></a></li>
+            <li role="menuitem" *ngIf="selectedSearch"><a class="dropdown-item" href="javascript://" (click)="openSearch()" [translate]="'actions.find'"></a></li>
+            <li role="menuitem" *ngIf="selectedFolder"><a class="dropdown-item" href="javascript://" (click)="editFolder()" [translate]="'folder.edit'"></a></li>
+            <li role="menuitem" *ngIf="selectedFolder"><a class="dropdown-item" href="javascript://" (click)="createDoc()" [translate]="'document.create'"></a></li>
+            <li role="menuitem" *ngIf="selectedFolder"><a class="dropdown-item" href="javascript://" (click)="createFolder()" [translate]="'folder.create'"></a></li>
+            <li role="menuitem"><a class="dropdown-item" href="javascript://" (click)="setupColumns()" [translate]="'search.columnsSetup'"></a></li>
+            <li role="menuitem" *ngIf="selectedSearch">
+                <a class="dropdown-item"  href="javascript://" (click)="export()">
+                  <span [translate]="'actions.export'"></span> - <span [translate]="'export.types.all'"></span>
+                </a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" href="javascript://" (click)="export(true)">
+                <span [translate]="'actions.export'"></span> - <span [translate]="'export.types.selected'"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </td></tr></table>
 
     <div class="row">
       <div class="col-md-12">
-        <app-objects-list *ngIf="setupDisp?.columns" [columns]="setupDisp.columns" [rows]="dataRows" [pageSize]="pageSize" [checkboxes]="true"
+        <app-objects-list *ngIf="setupDisp?.columns" [displayType]="displayType" [columns]="setupDisp.columns" [rows]="dataRows" [pageSize]="pageSize" [checkboxes]="true"
         [customizable]="true" [total]="dataTotalCount" [application]="application" [page]="pageNum" [loading]="isLoading" [pagingType]="pagingType"
                           [showMore]="!isLastPage"
         (sortChange)="onSort($event)" (itemOpen)="onItemOpen($event)" (itemEdit)="onItemColumnEdit($event)" (pageChange)="onItemsPageChange($event)"
