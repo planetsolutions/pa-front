@@ -76,7 +76,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
   private displayTypeRoot: string;
   private isLastPage = false;
   private autoRefreshTask: Subscription = null;
-
+  private rootFolder: Doc;
 
   breadCrumbs: { name: string, id: string, func?: any }[] = [];
 
@@ -239,6 +239,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
 
   public onRootFolderLoaded(rootDoc: Doc) {
     this.rootId = rootDoc.id;
+    this.rootFolder = rootDoc;
     if (rootDoc.data && rootDoc.data.defaultSorting && rootDoc.data.defaultSorting.colName) {
       this.defaultSortOptions = rootDoc.data.defaultSorting;
     }
@@ -731,6 +732,12 @@ export class SearchesComponent implements OnInit, OnDestroy {
           that.onTreeFolderSelected([root]);
         });
       });
+    } else if (this.rootFolder) {
+      const root = this.mapDocToCmisObj(this.rootFolder);
+      root.hasChildren = true;
+      this.onTreeFolderSelected([root]);
+    } else {
+      throw 'Root data is unavailable!'
     }
   }
   public openLastSearch() {
