@@ -13,6 +13,7 @@ export class AuthService {
   private LOCAL_STORAGE_HIDDEN_COL_KEY = 'hidden_columns';
   private LOCAL_STORAGE_PAGE_SIZE = 'page_size';
   private LOCAL_STORAGE_AUTO_REFRESH = 'auto_refresh';
+  private LOCAL_STORAGE_DISPLAY_TYPE = 'display_type';
 
   constructor(private inj: Injector) {
     const storedToken = window.localStorage.getItem(this.LOCAL_STORAGE_TOKEN_KEY);
@@ -97,6 +98,14 @@ export class AuthService {
   public getAutoRefresh(): number {
     const v = window.localStorage.getItem(this.LOCAL_STORAGE_AUTO_REFRESH + this._userName);
     return v ? +v : 0;
+  }
+
+  public setDisplayType(value: any) {
+    window.localStorage.setItem(this.LOCAL_STORAGE_DISPLAY_TYPE + this._userName, value);
+  }
+
+  public getDisplayType(): string {
+    return window.localStorage.getItem(this.LOCAL_STORAGE_DISPLAY_TYPE + this._userName);
   }
 
   private saveToken(): void {

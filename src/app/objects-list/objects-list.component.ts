@@ -18,13 +18,14 @@ export class ObjectsListComponent {
     this._columns = [];
     if (!value) return;
     this._columns = value;
-
   }
   @Input() set rows(value: any[]) {
     if (value) {
+      this.rowsArr = value;
       this._rows = Observable.of(value);
       this.rowsCount = value.length;
     } else {
+      this.rowsArr = null;
       this._rows = Observable.of(null);
       this.rowsCount = 0;
     }
@@ -32,6 +33,18 @@ export class ObjectsListComponent {
   get columns() {
     return this._columns;
   }
+  get requiredColumns() {
+    const arr = [].filter.call( this._columns, function( el) {
+      return el.required
+    });
+
+    if (arr.length === 0) {
+      return this._columns;
+    } else {
+      return arr;
+    }
+  }
+
   @Input()  loading = false;
   @Input()  application: Application;
   @Input()  total;
@@ -40,6 +53,7 @@ export class ObjectsListComponent {
   @Input()  customizable = false;
   @Input()  checkboxes = false;
   @Input()  pagingType = PagingTypes.PAGES;
+  @Input()  displayType = DisplayTypes.TABLE;
   @Input()  showMore = true;
 
   @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
@@ -50,11 +64,13 @@ export class ObjectsListComponent {
 
   _rows: Observable<any[]>;
   _columns: ResultMasterPanelTabColumn[];
+  _requiredColumns: ResultMasterPanelTabColumn[];
 
   rowsCount = 0;
   sortedBy: string = null;
   sortedAsc = true;
   selectAllChecked = false;
+  rowsArr:  any[];
 
   constructor(private elRef: ElementRef) {
 
@@ -139,4 +155,9 @@ export class ObjectsListComponent {
 export namespace PagingTypes {
   export const PAGES = 'pages';
   export const CONTINUATION = 'continuation';
+}
+
+export namespace DisplayTypes {
+  export const TABLE = 'table';
+  export const TILES = 'tiles';
 }

@@ -1,31 +1,33 @@
-<table class="table table-striped table-condensed table-responsive table-hover table-bordered" style="margin-bottom:10px !important">
+<table *ngIf="displayType == 'table'"
+       class="table table-striped table-condensed table-responsive table-hover table-bordered" style="margin-bottom:10px !important">
   <thead appStickyHeader style="background-color: white">
-    <tr valign="middle">
-      <th *ngIf="checkboxes"><input type="checkbox" [attr.title]="'actions.selectAll' | translate" (click)="selectAll($event)" [checked]="selectAllChecked"></th>
-      <th *ngFor="let col of columns; let i = index" [ngClass]="{'small':true, 'sortable': col.sortable, 'sorted': sortedBy === col.name}" (click)="sort(col)">
-        {{ col.label }}
-        <span *ngIf="col.sortable"
-              [className]="'pull-right glyphicon sort-icon ' + (sortedBy === col.name && !sortedAsc ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down') "
-        ></span>
-      </th>
-    </tr>
+  <tr valign="middle">
+    <th *ngIf="checkboxes"><input type="checkbox" [attr.title]="'actions.selectAll' | translate" (click)="selectAll($event)" [checked]="selectAllChecked"></th>
+    <th *ngFor="let col of columns; let i = index" [ngClass]="{'small':true, 'sortable': col.sortable, 'sorted': sortedBy === col.name}" (click)="sort(col)">
+      {{ col.label }}
+      <span *ngIf="col.sortable"
+            [className]="'pull-right glyphicon sort-icon ' + (sortedBy === col.name && !sortedAsc ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down') "
+      ></span>
+    </th>
+  </tr>
   </thead>
   <tbody *ngIf="pagingType === 'continuation' && _rows && rowsCount > 0 && !loading" style="max-height: 200px; overflow-y: scroll"
          infiniteScroll [infiniteScrollDisabled]="!(_rows && rowsCount > 0 && !loading && showMore)"
          [infiniteScrollDistance]="0.5" [infiniteScrollThrottle]="300"(scrolled)="onPageChange($event)" >
-    <tr *ngFor="let row of _rows  | async">
-      <td *ngIf="checkboxes"><input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)"></td>
-      <td *ngFor="let col of columns">
-        <app-objects-list-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)"></app-objects-list-cell>
-      </td>
-    </tr>
+  <tr *ngFor="let row of _rows  | async">
+    <td *ngIf="checkboxes"><input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)"></td>
+    <td *ngFor="let col of columns">
+      <app-objects-list-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)"></app-objects-list-cell>
+    </td>
+  </tr>
 
   </tbody>
+
   <tbody *ngIf="pagingType === 'pages' && _rows && rowsCount > 0 && !loading" style="max-height: 200px; overflow-y: scroll">
-  <tr *ngFor="let row of _rows  | async |  paginate: (pagingType === 'continuation' ? false : {id: 'pagination',
+  <tr *ngFor="let row of _rows  | async |  paginate: {id: 'pagination',
     itemsPerPage: pageSize,
     currentPage: page,
-    totalItems: total})">
+    totalItems: total}">
     <td *ngIf="checkboxes"><input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)"></td>
     <td *ngFor="let col of columns" style="{{(col.type === 'ICON' ? 'text-align:center' : '')}}">
       <app-objects-list-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)" (valueChange)="onColumnEdit($event)"></app-objects-list-cell>
@@ -34,6 +36,39 @@
 
   </tbody>
 </table>
+
+<div class="container-fluid" style="padding-left:0px;padding-right:0px" *ngIf="pagingType === 'continuation' && displayType == 'tiles' && _rows && rowsCount > 0 && !loading"
+     infiniteScroll [infiniteScrollDisabled]="!(_rows && rowsCount > 0 && !loading && showMore)"
+     [infiniteScrollDistance]="0.5" [infiniteScrollThrottle]="300"(scrolled)="onPageChange($event)">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="padding-left:3px;padding-right:3px" *ngFor="let row of _rows  | async">
+    <div  class="well well-sm" style="height: 200px">
+      <div *ngIf="checkboxes" style="float:right">
+        <input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)">
+      </div>
+      <div *ngFor="let col of requiredColumns">
+        <app-objects-list-tile-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)"></app-objects-list-tile-cell>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="container-fluid" style="padding-left:0px;padding-right:0px" *ngIf="pagingType === 'pages' && displayType == 'tiles' && _rows && rowsCount > 0 && !loading">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="padding-left:3px;padding-right:3px" *ngFor="let row of _rows  | async |  paginate: {id: 'pagination',
+    itemsPerPage: pageSize,
+    currentPage: page,
+    totalItems: total}">
+    <div  class="well well-sm" style="height: 200px">
+      <div *ngIf="checkboxes" style="float:right">
+        <input type="checkbox" [value]="row.id" class="objects-list-selection" (click)="selected($event)">
+      </div>
+      <div *ngFor="let col of requiredColumns">
+        <app-objects-list-tile-cell [row]="row" [column]="col" (linkClick)="onRowLinkClick($event)"></app-objects-list-tile-cell>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <pagination-controls (pageChange)="onPageChange($event)" id="pagination" autoHide="true"
                      *ngIf="pagingType === 'pages' && _rows && rowsCount > 0 && !loading" [nextLabel]="'page.next' | translate " [previousLabel]="'page.prev' | translate"></pagination-controls>

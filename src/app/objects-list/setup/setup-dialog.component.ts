@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, ViewChild} from '@angular/core';
 import {BsModalRef} from 'ngx-bootstrap';
 import {ResultMasterPanelTabColumn} from '../../index';
+import {DisplayTypes} from '../objects-list.component';
 
 @Component({
   selector: 'app-objects-list-setup-dialog',
@@ -9,10 +10,11 @@ import {ResultMasterPanelTabColumn} from '../../index';
 export class ObjectsListSetupDialogComponent implements OnInit {
   public columns: ResultMasterPanelTabColumn[];
   public hiddenList: {};
-  public onSubmit: EventEmitter<{newHiddenList: any, pageSize: any, autoRefresh: any}> = new EventEmitter<{newHiddenList: any, pageSize: any, autoRefresh: any}>();
+  public onSubmit: EventEmitter<{newHiddenList: any, pageSize: any, autoRefresh: any, displayType: any}> = new EventEmitter<{newHiddenList: any, pageSize: any, autoRefresh: any, displayType: any}>();
   public pageSize = 0;
   public autoRefresh = 0;
   public hidePages = false;
+  public displayType = '';
 
   constructor(public bsModalRef: BsModalRef) { }
 
@@ -32,9 +34,19 @@ export class ObjectsListSetupDialogComponent implements OnInit {
   }
 
   public submit(): void {
-    this.onSubmit.emit({newHiddenList: this.hiddenList, pageSize: this.pageSize, autoRefresh: this.autoRefresh});
+    this.onSubmit.emit({newHiddenList: this.hiddenList, pageSize: this.pageSize, autoRefresh: this.autoRefresh, displayType: this.displayType});
     this.bsModalRef.hide();
 
+  }
+
+  public setDisplayType(type: string) {
+    if (type === DisplayTypes.TILES) {
+      this.displayType = DisplayTypes.TILES;
+    } else if (type === DisplayTypes.TABLE) {
+      this.displayType = DisplayTypes.TABLE;
+    } else {
+      this.displayType = ''
+    }
   }
 
 }

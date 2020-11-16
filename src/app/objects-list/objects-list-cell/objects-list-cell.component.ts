@@ -5,7 +5,7 @@ import {ResultMasterColumnTypes, ResultMasterPanelTabColumn} from '../../service
 import {TranslateService} from '@ngx-translate/core';
 import {DateFormatPipe} from '../../pipes/date-format.pipe';
 import {DateTimeFormatPipe} from '../../pipes/date-time-format.pipe';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {PreviewService} from '../../sip/preview/preview.service';
 import {CommunicationService} from '../../services/communication.service';
 
@@ -28,6 +28,8 @@ export class ObjectsListCellComponent implements OnInit {
   public valueStyle;
   public previewSupported: boolean;
   public changable: boolean;
+  public mimeType: string;
+  public srcUrl: SafeUrl;
 
   private roles: string[] = [];
   private groups: string[] = [];
@@ -86,6 +88,8 @@ export class ObjectsListCellComponent implements OnInit {
 
         if (this.preview.isPreviewSupported(val)) {
           this.previewSupported = true;
+          this.mimeType = this.preview.getMimeType(val);
+          this.srcUrl = this.preview.getThumbUrl(val, this._row.id);
         }
 
         if (this._col.value) {

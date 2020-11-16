@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import CMIS_FILTER_FOLDERS = CmisConstants.CMIS_FILTER_FOLDERS;
 import {PagedList} from '../../../index';
 import {TranslateService} from '@ngx-translate/core';
-import {Doc} from "../../../services/api/model/doc";
+import {Doc} from '../../../services/api/model/doc';
 
 @Component({
   selector: 'app-application-tree',

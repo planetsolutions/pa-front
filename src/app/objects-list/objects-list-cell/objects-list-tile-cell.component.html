@@ -1,0 +1,14 @@
+<a *ngIf="isLink && value" href="javascript://;" (click)="onLinkClick()" class="{{valueClass}}" [style]="valueStyle">{{ column.label }}: {{ value }} </a>
+<span *ngIf="!isLink && !isIcon && !previewSupported && value" class="{{valueClass}}" [style]="valueStyle">{{ column.label }}: {{ value }} </span>
+
+<span *ngIf="isIcon && value && !column.value && !previewSupported" [innerHTML]="value | mimeIcon" [title]="value" style="float: left; margin-right: 5px;"></span>
+
+<div *ngIf="previewSupported && isImage()" (click)="onIconClick()" class="clickable" style="max-width:200px; float: left; margin-right: 5px;">
+  <app-preview-picture [src]="srcUrl" [mimeType]="mimeType" [fileName]="value" [height]="170"></app-preview-picture>
+</div>
+<div *ngIf="previewSupported && isVideo()" style="height:150px; max-width:200px; float: left; margin-right: 5px;">
+  <app-preview-video [src]="srcUrl" [mimeType]="mimeType" [fileName]="value"></app-preview-video>
+</div>
+<div *ngIf="previewSupported && isPDF()" style="height:150px; max-width:200px; text-align: center; float: left; margin-right: 5px;" (click)="onIconClick()" class="clickable">
+  <img src="assets/Adobe_PDF.svg" border="0" height="100">
+</div>

@@ -65,6 +65,11 @@
 		"facets": {
 			"other": "еще...",
 			"back": "назад к списку"
+		},
+		"view": {
+			"table": "Таблица",
+			"tiles": "Плитка",
+			"default": "По-умолчанию"
 		}
 	},
 	"document": {
@@ -190,7 +195,8 @@
 	"setup": {
 		"visibleColumns": "Показывать колонки",
 		"pageSize": "Записей на странице",
-		"autoRefresh": "Автообновление, сек"
+		"autoRefresh": "Автообновление, сек",
+		"displayType": "Вид"
 	},
 	"error": {
 		"title": "Ошибка"
