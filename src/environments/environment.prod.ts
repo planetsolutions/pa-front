@@ -5,5 +5,6 @@ export const environment = {
   itemsOnPage: 20,
   autoRefresh: 0,
   minScreenSize: 1100,
-  rootId: '00000000-0000-0000-0000-000000000000'
+  rootId: '00000000-0000-0000-0000-000000000000',
+  logo: 'logo.png?1'
 };

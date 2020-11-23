@@ -15,6 +15,7 @@ export * from './services/api/model/ingestion-response';
 export * from './services/api/model/result-master';
 export * from './services/api/model/user-local-info';
 export * from './services/api/model/user-info';
+export * from './services/api/model/theme-info';
 export * from './services/api/model/cmis-object';
 export * from './services/api/model/cmis-constants';
 export * from './services/api/model/doc-type';

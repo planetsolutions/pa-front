@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {ApiService} from './services/api/api.service';
-import {UserInfo} from './index';
+import {UserInfo, ThemeInfo} from './index';
 import {TranslateService} from '@ngx-translate/core';
 import {CommunicationService} from './services/communication.service';
 import {Observable} from 'rxjs/Observable';
 import {AlertsService} from './alerts/alerts.service';
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,8 @@ export class AppComponent {
   public username: string = null;
   public fullName: string = null;
   public roles: string[] = [];
+  public siteTitle: string;
+  public siteLogo: string;
 
   constructor(private apiService: ApiService, private translate: TranslateService, private commService: CommunicationService, private alertsService: AlertsService) {
     apiService.getUsername()
@@ -40,13 +43,13 @@ export class AppComponent {
               this.commService.set('groups', userInfo.groups);
             }
 
-            this.translate.get('title').subscribe((val: string) => {
-              window.document.title = val;
-            });
           });
       }
     });
 
+    apiService.getTheme().subscribe((info) => {
+      this.changeTheme(info);
+    });
   }
 
   public logout() {
@@ -74,5 +77,37 @@ export class AppComponent {
           title: 'nav.about'
         })
       })
+  }
+
+  private changeTheme(info: ThemeInfo): void {
+    if (info.styleSheet) {
+      if (info.styleSheet.indexOf('.css') < 0) {
+        window.document.getElementById('css_theme').setAttribute('href', `assets/themes/${info.styleSheet}.css`);
+      } else {
+        window.document.getElementById('css_theme').setAttribute('href', info.styleSheet);
+      }
+    } else {
+      window.document.getElementById('css_theme').removeAttribute('href');
+    }
+
+    if (info.siteTitle) {
+      this.siteTitle = info.siteTitle;
+      window.document.title = info.siteTitle;
+    } else {
+      this.translate.get('title').subscribe((val: string) => {
+        this.siteTitle = val;
+        window.document.title = val;
+      });
+    }
+
+    if (info.logo) {
+      this.siteLogo = info.logo;
+    } else {
+      this.siteLogo = environment.logo;
+    }
+
+    if (info.favicon) {
+       window.document.getElementById('favicon').setAttribute('href', info.favicon);
+    }
   }
 }
