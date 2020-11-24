@@ -62,27 +62,7 @@ export class ApiService {
       }
 
       this.getTenant().subscribe(() => {
-        if (this.tenantId) {
-          this.getDocument(this.tenantId).subscribe((doc: Doc) => {
 
-            const theme = new ThemeInfo({
-              styleSheet: doc.data ? doc.data.theme : null,
-              logo: doc.data ? doc.data.logo : null,
-              favicon: doc.data ? doc.data.favicon : null
-            });
-
-            if (doc.data) {
-              if (doc.data['title_' + this.userInfo.lang]) {
-                theme.siteTitle = doc.data['title_' + this.userInfo.lang];
-              } else if (doc.data.title) {
-                theme.siteTitle = doc.data.title;
-              }
-            }
-            this.themeInfoSubject.next(theme);
-          });
-
-          this.loggedInFlag.setReady();
-        }
       });
     }
   }
@@ -213,6 +193,28 @@ export class ApiService {
               }
             }
           }
+
+
+          this.getDocument(this.tenantId).subscribe((doc: Doc) => {
+
+            const theme = new ThemeInfo({
+              styleSheet: doc.data ? doc.data.theme : null,
+              logo: doc.data ? doc.data.logo : null,
+              favicon: doc.data ? doc.data.favicon : null
+            });
+
+            if (doc.data) {
+              if (doc.data['title_' + this.userInfo.lang]) {
+                theme.siteTitle = doc.data['title_' + this.userInfo.lang];
+              } else if (doc.data.title) {
+                theme.siteTitle = doc.data.title;
+              }
+            }
+            this.themeInfoSubject.next(theme);
+          });
+
+          this.loggedInFlag.setReady();
+
       } else {
         this.logout();
       }
