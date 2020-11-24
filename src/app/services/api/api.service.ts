@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpClient, HttpHeaders, HttpResponse, HttpParams} from '@angular/common/http';
 import {LoginParameters, LoginResponse, Token, Application, Flag, Search, Doc, PagedList, XForm,
-  SearchResultRow, ResultMaster, SearchComposition, IngestionResponse, CmisObject,
+  SearchResultRow, ResultMaster, SearchComposition, IngestionResponse, CmisObject, ThemeInfo,
   DocType, AccessGroup, SystemDoc, UserInfo, Tenant, ContentData, ListElement, CmisConstants, SortOptions} from '../../index';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
@@ -36,6 +36,7 @@ export class ApiService {
   private IAEndpoint = environment.IAEndpoint;
   private usePGStore = false;
   private readonly usernameSubject: ReplaySubject<string> = new ReplaySubject(1);
+  private readonly themeInfoSubject: ReplaySubject<ThemeInfo> = new ReplaySubject(1);
   private tenantId: string;
   private userInfo: UserInfo;
   private readonly LOCAL_STORAGE_USERINFO_KEY = 'user_info';
@@ -63,12 +64,21 @@ export class ApiService {
       this.getTenant().subscribe(() => {
         if (this.tenantId) {
           this.getDocument(this.tenantId).subscribe((doc: Doc) => {
-            const theme = (doc.data ? doc.data.theme : null);
-            if (theme && theme !== '') {
-              this.changeTheme(theme);
-            } else {
-              this.changeTheme();
+
+            const theme = new ThemeInfo({
+              styleSheet: doc.data ? doc.data.theme : null,
+              logo: doc.data ? doc.data.logo : null,
+              favicon: doc.data ? doc.data.favicon : null
+            });
+
+            if (doc.data) {
+              if (doc.data['title_' + this.userInfo.lang]) {
+                theme.siteTitle = doc.data['title_' + this.userInfo.lang];
+              } else if (doc.data.title) {
+                theme.siteTitle = doc.data.title;
+              }
             }
+            this.themeInfoSubject.next(theme);
           });
 
           this.loggedInFlag.setReady();
@@ -108,6 +118,10 @@ export class ApiService {
 
   public getUsername(): Observable<string> {
     return this.usernameSubject.asObservable();
+  }
+
+  public getTheme(): Observable<ThemeInfo> {
+    return this.themeInfoSubject.asObservable();
   }
 
   public login(username: string, password: string): Observable<UserInfo> {
@@ -178,14 +192,6 @@ export class ApiService {
     }
 
     this.bsLocaleService.use(lang);
-  }
-
-  private changeTheme(theme?: string): void {
-    if (theme) {
-      window.document.getElementById('css_theme').setAttribute('href', `assets/themes/${theme}.css`);
-    } else {
-      window.document.getElementById('css_theme').removeAttribute('href');
-    }
   }
 
   /**
