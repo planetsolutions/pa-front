@@ -16,8 +16,8 @@ export class AppComponent {
   public username: string = null;
   public fullName: string = null;
   public roles: string[] = [];
-  public siteTitle: string;
-  public siteLogo: string;
+  public siteTitle = environment.title;
+  public siteLogo = environment.logo;
 
   constructor(private apiService: ApiService, private translate: TranslateService, private commService: CommunicationService, private alertsService: AlertsService) {
     apiService.getUsername()
@@ -80,7 +80,7 @@ export class AppComponent {
   }
 
   private changeTheme(info: ThemeInfo): void {
-    if (info.styleSheet) {
+    if (info.styleSheet && info.styleSheet !== '') {
       if (info.styleSheet.indexOf('.css') < 0) {
         window.document.getElementById('css_theme').setAttribute('href', `assets/themes/${info.styleSheet}.css`);
       } else {
@@ -90,7 +90,7 @@ export class AppComponent {
       window.document.getElementById('css_theme').removeAttribute('href');
     }
 
-    if (info.siteTitle) {
+    if (info.siteTitle && info.siteTitle !== '') {
       this.siteTitle = info.siteTitle;
       window.document.title = info.siteTitle;
     } else {
@@ -100,14 +100,16 @@ export class AppComponent {
       });
     }
 
-    if (info.logo) {
+    if (info.logo && info.logo !== '') {
       this.siteLogo = info.logo;
     } else {
       this.siteLogo = environment.logo;
     }
 
-    if (info.favicon) {
+    if (info.favicon && info.favicon !== '') {
        window.document.getElementById('favicon').setAttribute('href', info.favicon);
+    } else {
+       window.document.getElementById('favicon').setAttribute('href', 'favicon.ico');
     }
   }
 }
