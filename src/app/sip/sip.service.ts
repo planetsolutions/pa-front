@@ -25,21 +25,25 @@ export class SipService {
 
    }
 
-   public create(parentFolder: string, application: Application, implName?: string, rootType = 'document'): Observable<string> {
+   public create(parentFolder: string, application: Application, implName?: string, rootType = 'document',
+                 typeInfo?: {id: string, title: string} ): Observable<string> {
       if (!application || application.platform === Platforms.PG) {
-
-          return this.typeSelectService.select({
-            applicationId: application ? application.uuid : null,
-            rootType: rootType,
-            disableAbstract: true})
-            .flatMap((type: DocType) => {
-              if (type) {
-                return this.openDialog(null, type.symbolicName, application, parentFolder, true, implName, type.title, rootType);
-              } else {
-                return Observable.of(null);
-              }
-            });
-
+          if (!typeInfo) {
+            return this.typeSelectService.select({
+              applicationId: application ? application.uuid : null,
+              rootType: rootType,
+              disableAbstract: true
+            })
+              .flatMap((type: DocType) => {
+                if (type) {
+                  return this.openDialog(null, type.symbolicName, application, parentFolder, true, implName, type.title, rootType);
+                } else {
+                  return Observable.of(null);
+                }
+              });
+          } else {
+            return this.openDialog(null, typeInfo.id, application, parentFolder, true, implName, typeInfo.title, rootType);
+          }
       } else {
           return this.openDialog(null, null, application, parentFolder, true);
       }

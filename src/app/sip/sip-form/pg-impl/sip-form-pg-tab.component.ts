@@ -97,6 +97,7 @@ export class SipFormPgTabComponent implements OnInit {
     this.compRef.instance['data'] = this.data;
     this.compRef.instance['api'] = this.api;
     this.compRef.instance['openDoc'] = this.openDoc.bind(this);
+    this.compRef.instance['addChildDoc'] = this.addChildDoc.bind(this);
     this.compRef.instance['reloadData'] = this.reloadData.bind(this);
     this.compRef.instance['serverCall'] = this.serverCall.bind(this);
   }
@@ -122,6 +123,14 @@ export class SipFormPgTabComponent implements OnInit {
 
   private openDoc(id: string): void {
     this.injector.get(SipService).open(id, this.application);
+  }
+  private addChildDoc(parentId: string, typeId: string, typeTitle: string): void {
+    this.injector.get(SipService).create(parentId, this.application, null,null,{id: typeId, title: typeTitle})
+      .subscribe((id: string) => {
+        if (id) {
+          this.reloadData()
+        }
+      });
   }
 
   private serverCall(url: string, refreshData: boolean) {
