@@ -121,8 +121,8 @@ export class SipFormPgTabComponent implements OnInit {
     return DynamicModule;
   }
 
-  private openDoc(id: string): void {
-    this.injector.get(SipService).open(id, this.application);
+  private openDoc(id: string, typeId: string): void {
+    this.injector.get(SipService).open(id, this.application, typeId);
   }
   private addChildDoc(parentId: string, typeId: string, typeTitle: string): void {
     this.injector.get(SipService).create(parentId, this.application, null,null,{id: typeId, title: typeTitle})
