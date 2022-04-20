@@ -25,6 +25,7 @@ import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 import { VgBufferingModule } from 'videogular2/buffering';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {TagsInputModule } from 'ngx-tags-input/dist';
+import { DropzoneModule, DROPZONE_CONFIG, DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 
 import {SharedModule} from './shared.module';
 
@@ -101,6 +102,7 @@ import { SipFormPgTabComponent } from './sip/sip-form/pg-impl/sip-form-pg-tab.co
 import {arLocale, defineLocale, frLocale, ruLocale} from 'ngx-bootstrap';
 import {ExportDialogComponent} from './applications-list/searches/export/export-dialog.component';
 import {ExportService} from './applications-list/searches/export/export.service';
+import {DNDImportService} from './applications-list/searches/dnd-import/dnd-import.service';
 import {FacetsComponent} from './applications-list/searches/facets/facets.component';
 import {PreviewDialogComponent} from './sip/preview/preview-dialog.component';
 import {PreviewVideoComponent} from './sip/preview/video-impl/preview-video.component';
@@ -111,6 +113,12 @@ import {PreviewPdfComponent} from './sip/preview/pdf-impl/preview-pdf.component'
 defineLocale('ru', ruLocale);
 defineLocale('fr', frLocale);
 defineLocale('ar', arLocale);
+
+const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+  url: '/',
+  maxFilesize: 100,
+  acceptedFiles: '*/*'
+};
 
 @NgModule({
   declarations: [
@@ -210,17 +218,19 @@ defineLocale('ar', arLocale);
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    PdfViewerModule
+    PdfViewerModule,
+    DropzoneModule
   ],
   providers: [AuthGuard, ApiService, SipService, PreviewService, XsdParserService, XformParserService, AuthService, SystemService, UserService, GroupService,
               QuestionControlService, CommunicationService, TypeSelectService, FolderService, SearchFormService,
-              ResizeService, ObjectsListSetupService, AlertsService, ExportService,
+              ResizeService, ObjectsListSetupService, AlertsService, ExportService, DNDImportService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiHttpInterceptor,
       multi: true,
     },
-    { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
+    { provide: DROPZONE_CONFIG, useValue: DEFAULT_DROPZONE_CONFIG }
   ],
   bootstrap: [AppComponent],
   entryComponents: [TypeSelectComponent, TypeSelectWidgetComponent, DatePickerWidgetComponent, SipFormComponent, UserEditComponent, GroupEditComponent,
