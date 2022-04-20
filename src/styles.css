@@ -180,3 +180,17 @@ json-schema-form select-widget select option[value=null]{
 .color-grey {
   color: #999;
 }
+
+
+
+.dropzone {
+  border: 2px solid white
+}
+.dropzone.dz-drag-hover {
+  border: 2px dashed orangered;
+}
+.dropzone .dz-message,
+.dropzone .dz-preview
+{
+  display: none
+}

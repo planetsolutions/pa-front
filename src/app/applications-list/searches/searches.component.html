@@ -118,7 +118,7 @@
       </div>
     </td></tr></table>
 
-    <div class="row">
+    <div class="row dropzone" [dropzone]="dropZoneConfig" (drop)="onFilesDrop($event)" style="min-height: 400px">
       <div class="col-md-12">
         <app-objects-list *ngIf="setupDisp?.columns" [displayType]="displayType" [columns]="setupDisp.columns" [rows]="dataRows" [pageSize]="pageSize" [checkboxes]="true"
         [customizable]="true" [total]="dataTotalCount" [application]="application" [page]="pageNum" [loading]="isLoading" [pagingType]="pagingType"

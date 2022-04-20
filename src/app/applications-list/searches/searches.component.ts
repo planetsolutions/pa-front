@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { Search, SearchComposition, Application, ResultMaster, ResultMasterColumnTypes, SortOptions,
@@ -21,6 +21,8 @@ import {PagingTypes} from '../../objects-list/objects-list.component';
 import {DisplayTypes} from '../../objects-list/objects-list.component';
 import {PreviewService} from '../../sip/preview/preview.service';
 import {environment} from '../../../environments/environment';
+import {DropzoneConfigInterface, DropzoneDirective} from 'ngx-dropzone-wrapper';
+import {DNDImportService} from './dnd-import/dnd-import.service';
 
 
 @Component({
@@ -62,6 +64,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
   public isLoading = false;
   public tab1Active = true;
   public tab2Active = false;
+  public dropZoneConfig: DropzoneConfigInterface = {clickable: false, autoQueue: false, autoProcessQueue: false, createImageThumbnails: false};
   private folderData: CmisObject[];
   private pageNum = 1;
   private currentSearchRequest: string;
@@ -77,6 +80,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
   private isLastPage = false;
   private autoRefreshTask: Subscription = null;
   private rootFolder: Doc;
+  private dndEventActive = false;
 
   breadCrumbs: { name: string, id: string, func?: any }[] = [];
 
@@ -88,11 +92,14 @@ export class SearchesComponent implements OnInit, OnDestroy {
   ftQuery = '';
   ftAggregations: any;
 
+  @ViewChild(DropzoneDirective)
+  private directiveRef?: DropzoneDirective;
+
   constructor(private apiService: ApiService, private exportService: ExportService, private alertService: AlertsService,
               private route: ActivatedRoute, private listSetupService: ObjectsListSetupService,
               private sipService: SipService, private searchFormService: SearchFormService,
               private communicationService: CommunicationService, private translate: TranslateService,
-              private previewService: PreviewService) {
+              private previewService: PreviewService, private dndImportService: DNDImportService) {
   }
 
   ngOnInit() {
@@ -139,6 +146,7 @@ export class SearchesComponent implements OnInit, OnDestroy {
       }
       this.onItemsPageChange(1);
     });
+
   }
 
   ngOnDestroy(): void {
@@ -743,6 +751,30 @@ export class SearchesComponent implements OnInit, OnDestroy {
   public openLastSearch() {
     if (this.lastSelectedSearch) {
       this.selectSearch(this.lastSelectedSearch);
+    }
+  }
+
+  public onFilesDrop(event) {
+    if (this.dndEventActive) {
+      this.dndEventActive = false;
+      return;
+    }
+    this.dndEventActive = true;
+    console.log('onFilesDrop');
+
+    if (!this.selectedFolder) {
+      this.alertService.info({text: 'import.dndFoldersOnly', title: 'export.title'})
+    } else {
+      const folderId = this.selectedFolder ? this.selectedFolder.id : this.rootFolder.id;
+      const docTypeId = 'cmis:document';
+      if (this.application.createTypes && this.application.createTypes.length > 0) {
+        docTypeId = this.application.createTypes[0];
+      }
+      this.dndImportService.uploadFiles(event.dataTransfer, folderId, docTypeId).subscribe(() => {
+        console.log('refreshing');
+        this.directiveRef.reset();
+        setTimeout(() => this.refresh(), 1000);
+      });
     }
   }
 
