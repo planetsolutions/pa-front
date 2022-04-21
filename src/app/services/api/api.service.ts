@@ -538,6 +538,10 @@ export class ApiService {
       data.content = file;
     }
 
+    if (action === 'createDocument') {
+      data.objectId = objId;
+    }
+
     return this.executeCmisAction(objId, action, data)
       .map((obj: CmisObject) => new Doc(obj));
   }

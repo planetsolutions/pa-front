@@ -221,5 +221,9 @@
 			"info": "Succeeded: {{succeeded}}; Failed: {{failed}}"
 		},
 		"nothing": "No data for export"
+	},
+	"import": {
+		"title": "Import",
+		"dndFoldersOnly": "The function is available inside folders only"
 	}
 }
