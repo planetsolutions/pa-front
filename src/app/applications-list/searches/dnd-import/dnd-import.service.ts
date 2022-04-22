@@ -77,16 +77,19 @@ export class DNDImportService {
         const entriesTotal = entries.length;
 
         console.log('reading folder entries: ' + entriesTotal);
-
-        for (const entry of entries) {
-          that.readEntry(entry, parent).then((entryName: string) => {
-            entriesDone ++;
-            if ( (entriesTotal - entriesDone) === 0) {
-              console.log('folder contents done=' + entriesTotal);
-              resolve(entriesDone);
-            }
-          });
-        }
+		if (entriesTotal == 0) {
+			resolve(entriesDone);
+		} else {
+			for (const entry of entries) {
+			  that.readEntry(entry, parent).then((entryName: string) => {
+				entriesDone ++;
+				if ( (entriesTotal - entriesDone) === 0) {
+				  console.log('folder contents done=' + entriesTotal);
+				  resolve(entriesDone);
+				}
+			  });
+			}
+		}
       });
     });
   }
